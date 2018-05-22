@@ -8,8 +8,7 @@
    </link>
 
 
-   <!-- Joint 0 -->
-    <link name="RX90_BARREL">
+   <link name="RX90_BARREL">
       <visual>
          <geometry>
             <mesh filename="package://rx90_description/meshes/stl/RX-90_BARREL.stl" scale="0.001 0.001 0.001" />
@@ -23,6 +22,14 @@
             </geometry>
        </collision>
        <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
    </link>
    <joint name="RX90_BARREL_JOINT" type="fixed">
       <parent link="base_link" />
@@ -44,32 +51,48 @@
             </geometry>
        </collision>
        <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
     </link>
     <joint name="RX90_BASE_JOINT" type="fixed">
        <parent link="RX90_BARREL" />
        <child link="RX90_BASE" />
-       <origin rpy="0 0 0" xyz="0 0 5.3" />
+       <origin rpy="0 0 0" xyz="0 0 1.005" />
     </joint>
 
     <link name="RX90_SHOULDER">
        <visual>
-	<origin rpy="${pi/2} 0 ${pi}" xyz="0 0 0" />
+	<origin rpy="0 ${-pi/2} ${pi/2}" xyz="0.122 0 0" />
           <geometry>
              <mesh filename="package://rx90_description/meshes/stl/RX-90_SHOULDER.stl" scale="0.001 0.001 0.001" />
           </geometry>
        </visual>
 	<collision>
-        <origin rpy="${pi/2} 0 ${pi}" xyz="0 0 0" />
+        <origin rpy="0 ${-pi/2} ${pi/2}" xyz="0.122 0 0" />
             <geometry>
               <mesh filename="package://rx90_description/meshes/stl/RX-90_SHOULDER.stl" scale="0.001 0.001 0.001" />
             </geometry>
        </collision>
        <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
     </link>
     <joint name="RX90_SHOULDER_JOINT" type="continuous">
        <parent link="RX90_BASE" />
        <child link="RX90_SHOULDER" />
-       <origin rpy="0 ${pi/2} 0" xyz="0 0 3" />
+       <origin rpy="0 ${pi/2} 0" xyz="0 0 0.41" />
     </joint>
 
 <link name="RX90_ARM">
@@ -86,11 +109,139 @@
             </geometry>
        </collision>
        <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
     </link>
     <joint name="RX90_ARM_JOINT" type="continuous">
        <parent link="RX90_SHOULDER" />
        <child link="RX90_ARM" />
-       <origin rpy="0 ${pi/2} ${pi/2}" xyz="0 0 -1" />
+       <origin rpy="0 ${pi/2} ${pi/2}" xyz="0 0 -0.301" />
     </joint>
+
+    <link name="RX90_ELBOW">
+       <visual>
+	<origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_ELBOW.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_ELBOW.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RX90_ELBOW_JOINT" type="continuous">
+       <parent link="RX90_ARM" />
+       <child link="RX90_ELBOW" />
+       <origin rpy="0 0 0" xyz="-0.255 0 -0.46" />
+    </joint>
+
+
+  <link name="RX90_FOREARM">
+       <visual>
+	<origin rpy="${pi} ${-pi/2} 0" xyz="0.355 0.1 -0.05" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_FOREARM.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi} ${-pi/2} 0" xyz="0.355 0.1 -0.05" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_FOREARM.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RX90_FOREARM_JOINT" type="continuous">
+       <parent link="RX90_ELBOW" />
+       <child link="RX90_FOREARM" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0 0 0" />
+    </joint>
+
+      <link name="RX90_WRIST">
+       <visual>
+	<origin rpy="${pi/2} 0 ${-pi/2}" xyz="-0.007 0 -0.01" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_WRIST.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi/2} 0 ${-pi/2}" xyz="-0.007 0 -0.01" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_WRIST.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RX90_WRIST_JOINT" type="continuous">
+       <parent link="RX90_FOREARM" />
+       <child link="RX90_WRIST" />
+       <origin rpy="0 0 ${pi/2}" xyz="0.52 0 0" />
+    </joint>
+
+          <link name="RX90_FLANGE">
+       <visual>
+	<origin rpy="0 ${pi/2} 0" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 -0.009" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RX90_FLANGE_JOINT" type="continuous">
+       <parent link="RX90_WRIST" />
+       <child link="RX90_FLANGE" />
+       <origin rpy="0 0 ${-pi/2}" xyz="-0.006 -0.1015 -0.009" />
+    </joint>
+
+
 <selfCollide>true</selfCollide>
+ 
 </robot>

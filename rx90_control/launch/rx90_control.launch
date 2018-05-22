@@ -7,7 +7,11 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
 	output="screen" ns="/rx90" args="joint_state_controller
             RX90_SHOULDER_JOINT_position_controller
-            RX90_ARM_JOINT_position_controller"/>
+            RX90_ARM_JOINT_position_controller
+            RX90_ELBOW_JOINT_position_controller
+            RX90_FOREARM_JOINT_position_controller
+            RX90_WRIST_JOINT_position_controller
+            RX90_FLANGE_JOINT_position_controller"/>
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"

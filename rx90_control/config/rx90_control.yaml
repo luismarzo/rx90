@@ -13,3 +13,20 @@ rx90:
     type: effort_controllers/JointPositionController
     joint: RX90_ARM_JOINT
     pid: {p: 100.0, i: 0.01, d: 10.0}
+  RX90_ELBOW_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_ELBOW_JOINT
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  RX90_FOREARM_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_FOREARM_JOINT
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  RX90_WRIST_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_WRIST_JOINT
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  RX90_FLANGE_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_FLANGE_JOINT
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
