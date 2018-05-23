@@ -29,4 +29,12 @@ rx90:
     type: effort_controllers/JointPositionController
     joint: RX90_FLANGE_JOINT
     pid: {p: 100.0, i: 0.01, d: 10.0}
+  RX90_LGRIPPER_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_LGRIPPER_JOINT
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  RX90_RGRIPPER_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_RGRIPPER_JOINT
+    pid: {p: 100.0, i: 0.01, d: 10.0}
 

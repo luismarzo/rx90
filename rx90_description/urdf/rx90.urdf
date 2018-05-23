@@ -220,7 +220,7 @@
           </geometry>
        </visual>
 	<collision>
-        <origin rpy="0 ${pi/2} 0" xyz="0 0 -0.009" />
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 0" />
             <geometry>
               <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
             </geometry>
@@ -239,6 +239,67 @@
        <parent link="RX90_WRIST" />
        <child link="RX90_FLANGE" />
        <origin rpy="0 0 ${-pi/2}" xyz="-0.006 -0.1015 -0.009" />
+    </joint>
+
+
+          <link name="RX90_LGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RX90_LGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
+       <parent link="RX90_FLANGE" />
+       <child link="RX90_LGRIPPER" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0" />
+    </joint>
+
+ <link name="RX90_RGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RX90_RGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="-0.1" upper="0" velocity="0.5"/>
+       <parent link="RX90_FLANGE" />
+       <child link="RX90_RGRIPPER" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0" />
     </joint>
 
 

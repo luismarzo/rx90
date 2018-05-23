@@ -11,7 +11,9 @@
             RX90_ELBOW_JOINT_position_controller
             RX90_FOREARM_JOINT_position_controller
             RX90_WRIST_JOINT_position_controller
-            RX90_FLANGE_JOINT_position_controller"/>
+            RX90_FLANGE_JOINT_position_controller
+            RX90_LGRIPPER_JOINT_position_controller
+            RX90_RGRIPPER_JOINT_position_controller"/>
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
