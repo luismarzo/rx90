@@ -7,11 +7,11 @@
 
 namespace gazebo
 {
-  class rx90_pub : public WorldPlugin
+  class rx90_publisher : public ModelPlugin
   {
-    public: rx90_pub() : WorldPlugin()
+    public: void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
+	
             {
-		ros::init(argc, argv, "talker");
 		if(ros::ok()){
 		
 		
@@ -24,7 +24,7 @@ namespace gazebo
 		printf("\n\nPUBLISHING, CLICK RUN BUTTOM IN THE GAZEBO SIMULATION\n\n");
 		ros::NodeHandle n;
 		pub = n.advertise<std_msgs::Float64>("/rx90/RX90_ARM_JOINT_position_controller/command", 1000);
-		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&rx90_pub::OnUpdate, this, _1));
+		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&rx90_publisher::OnUpdate, this, _1));
 		
 		//}
 		//else
@@ -35,18 +35,16 @@ namespace gazebo
 
             }
 
-    public: void Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
-            {
-            }
+
 
     public: void OnUpdate(const common::UpdateInfo &_info)
 	{
 		msg.data=cnt;
 		pub.publish(msg);
-		cnt=cnt+3;
+		cnt=cnt+1;
 		printf("\ncnt=%f", cnt);
 		printf("\tmsg.data=%f", msg.data);
-		sleep(10);
+		sleep(2);
 	}
 
    
@@ -58,12 +56,10 @@ namespace gazebo
 	std_msgs::Float64 msg;
 	float cnt=0;
 	char input;
-	int argc=1;
-	char *argv[1]={"chema"};
 	
 
 
 
   };
-  GZ_REGISTER_WORLD_PLUGIN(rx90_pub)
+  GZ_REGISTER_MODEL_PLUGIN(rx90_publisher)
 }

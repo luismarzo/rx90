@@ -10,6 +10,9 @@
   <!-- Import Rviz colors -->
   <xacro:include filename="$(find rx90_description)/urdf/materials.xacro" />
 
+<!--gazebo>
+  <plugin name="rx90_publisher" filename="librx90_publisher.so"/>
+  </gazebo-->
   <!-- Used for fixing robot to Gazebo 'base_link' -->
   <link name="world"/>
 

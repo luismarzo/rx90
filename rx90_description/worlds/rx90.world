@@ -101,7 +101,7 @@
         <quadratic>0</quadratic>
       </attenuation>
     </light>
-  <!--plugin name="rx90_pub" filename="librx90_pub.so"/-->
+ <!--plugin name="rx90_pub" filename="librx90_pub.so"/-->
   <!--plugin name="hola_mundo" filename="libhola_mundo.so"/-->
   </world>
 </sdf>

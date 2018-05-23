@@ -11,8 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  genmsg
 )
 
+generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -20,6 +22,8 @@ catkin_package(
 #  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
+
+
 
 ###########
 ## Build ##
@@ -41,6 +45,12 @@ find_package(gazebo REQUIRED)
 add_library(hola_mundo SHARED src/hola_mundo.cpp)
 target_link_libraries(hola_mundo ${GAZEBO_LIBRARIES})
 
+add_library(rx90_publisher SHARED src/rx90_publisher.cpp)
+target_link_libraries(rx90_publisher ${GAZEBO_LIBRARIES})
+
 add_library(rx90_pub SHARED src/rx90_pub.cpp)
 target_link_libraries(rx90_pub ${GAZEBO_LIBRARIES})
 
+add_executable(main_publisher "src/main_publisher.cpp")
+target_link_libraries(main_publisher ${catkin_LIBRARIES})
+add_dependencies(main_publisher rx90_control_generate_messages_cpp)
