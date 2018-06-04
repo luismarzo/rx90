@@ -4,12 +4,23 @@
 
   <world name="default">
     <include>
-      <uri>model://ground_plane</uri>
+      <uri>model://minitable</uri>
+      <pose>1.5 0 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://unit_box</uri>
+      <pose>0 -0.485773 0.255625 3.1415 0 -1.551854</pose>
+      <static>0</static>
     </include>
 
     <!-- Global light source -->
     <include>
       <uri>model://sun</uri>
+    </include>
+
+      <include>
+      <uri>model://grass_plane_medium</uri>
     </include>
 
     <!-- Focus camera on tall pendulum -->
@@ -101,7 +112,6 @@
         <quadratic>0</quadratic>
       </attenuation>
     </light>
- <!--plugin name="rx90_pub" filename="librx90_pub.so"/-->
-  <!--plugin name="hola_mundo" filename="libhola_mundo.so"/-->
+
   </world>
 </sdf>

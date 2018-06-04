@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="0.001.0"?>
 <robot>
 
   <!-- ros_control plugin -->
@@ -9,14 +9,15 @@
     </plugin>
   </gazebo>
 
-  <!-- Link1 -->
+  <!-- Link0.001 -->
 
 
    <gazebo reference="RX90_BARREL">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
-    <!--kp>0.2</kp>
-    <kd>0.2</kd-->
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -25,6 +26,9 @@
    <gazebo reference="RX90_BASE">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -33,8 +37,9 @@
    <gazebo reference="RX90_SHOULDER">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
-    <!--kp>20</kp>
-    <kd>20</kd-->
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+     <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -43,8 +48,9 @@
    <gazebo reference="RX90_ARM">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
-    <!--kp>20</kp>
-    <kd>20</kd-->
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -53,6 +59,9 @@
      <gazebo reference="RX90_ELBOW">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+   <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -61,6 +70,9 @@
      <gazebo reference="RX90_FOREARM">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -69,6 +81,9 @@
      <gazebo reference="RX90_WRIST">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -77,6 +92,9 @@
      <gazebo reference="RX90_FLANGE">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -85,6 +103,9 @@
        <gazebo reference="RX90_LGRIPPER">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>
@@ -93,6 +114,20 @@
        <gazebo reference="RX90_RGRIPPER">
     <mu1>0.2</mu1>
     <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
+    <material>Gazebo/Orange</material>
+    <selfCollide>1</selfCollide>
+    <static>0</static>
+  </gazebo>
+
+ <gazebo reference="RX90_MGRIPPER">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <!-- <kp>0.2</kp>
+    <kd>0.2</kd> -->
+    <dampingFactor>0.01</dampingFactor>
     <material>Gazebo/Orange</material>
     <selfCollide>1</selfCollide>
     <static>0</static>

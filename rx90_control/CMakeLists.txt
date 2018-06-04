@@ -12,9 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   genmsg
+  gazebo_msgs
+
 )
 
-generate_messages(DEPENDENCIES std_msgs)
+generate_messages(DEPENDENCIES std_msgs gazebo_msgs)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -54,3 +56,7 @@ target_link_libraries(rx90_pub ${GAZEBO_LIBRARIES})
 add_executable(main_publisher "src/main_publisher.cpp")
 target_link_libraries(main_publisher ${catkin_LIBRARIES})
 add_dependencies(main_publisher rx90_control_generate_messages_cpp)
+
+add_executable(main_catch "src/main_catch.cpp")
+target_link_libraries(main_catch ${catkin_LIBRARIES})
+add_dependencies(main_catch rx90_control_generate_messages_cpp)
