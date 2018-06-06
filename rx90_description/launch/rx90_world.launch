@@ -17,7 +17,6 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
- 
 
   <!-- Load the URDF into the ROS Parameter Server -->
   
@@ -25,11 +24,8 @@
     command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90.xacro'"  />
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
-
-
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-urdf -model rx90 -param robot_description"/>
-
 
   <!-- ros_control rx90 launch file -->
   <include file="$(find rx90_control)/launch/rx90_control.launch" />
