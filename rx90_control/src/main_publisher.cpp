@@ -37,7 +37,7 @@ int main(int argc, char **argv)
   ros::ServiceClient client = n.serviceClient<gazebo_msgs::ApplyJointEffort>("/gazebo/apply_joint_effort");
   gazebo_msgs::ApplyJointEffort srv;
   srv.request.joint_name = "rx90::RX90_MGRIPPER_JOINT";
-  srv.request.effort = -100;
+  srv.request.effort = -99;
   srv.request.start_time = ros::Time(0);
   srv.request.duration = ros::Duration(-1);
   client.call(srv);
