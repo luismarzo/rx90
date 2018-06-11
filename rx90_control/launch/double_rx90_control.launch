@@ -1,0 +1,35 @@
+<launch>
+ 
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+
+   <arg name="ns" default="/youbot" />
+   <param name="robot_description"    command="$(find xacro)/xacro.py '$(find rx90_description)/urdf/rx90.xacro'"  />
+   <group ns="$(arg ns)">
+  <rosparam file="$(find rx90_control)/config/zrx90_control.yaml" command="load" ns="$(arg ns)"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner_1" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen"  args="--namespace=$(arg ns)
+            joint_state_controller
+            RX90_SHOULDER_JOINT_position_controller
+            RX90_ARM_JOINT_position_controller
+            RX90_ELBOW_JOINT_position_controller
+            RX90_FOREARM_JOINT_position_controller
+            RX90_WRIST_JOINT_position_controller
+            RX90_FLANGE_JOINT_position_controller
+            RX90_LGRIPPER_JOINT_position_controller
+            RX90_RGRIPPER_JOINT_position_controller
+            RX90_MGRIPPER_JOINT_position_controller"/>
+
+
+
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	respawn="false" output="screen">
+    <remap from="/joint_states" to="$(arg ns)/joint_states" />
+  </node>
+</group>
+
+
+</launch>

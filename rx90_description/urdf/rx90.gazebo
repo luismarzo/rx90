@@ -2,12 +2,16 @@
 <robot>
 
   <!-- ros_control plugin -->
-  <gazebo>
+
+  <!--TODO cambia los dos plugins esos por 1 solo, da un poco de error-->
+   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/rx90</robotNamespace>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <!--robotNamespace>/rx90_1</robotNamespace-->
     </plugin>
-  </gazebo>
+  </gazebo>  
+
+
 
   <!-- Link0.001 -->
 

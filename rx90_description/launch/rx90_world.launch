@@ -6,6 +6,7 @@
   <arg name="gui" default="true"/>
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
+  <arg name="nmspace" default="/rx90_1"/>
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -17,21 +18,30 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
- 
-
-  <!-- Load the URDF into the ROS Parameter Server -->
   
-  <param name="robot_description"
+
+
+     <param name="robot_description"
     command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90.xacro'"  />
 
-  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
 
 
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-    args="-urdf -model rx90 -param robot_description"/>
+   <node name="urdf_spawner_1" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model rx90_1 -param robot_description -x 3 -y 1 -z 0"/> 
+
+      <!-- <node name="urdf_spawner_2" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model rx90_2 -param robot_description -x 2 -y -3 -z 0"/> -->
+
+ 
 
 
-  <!-- ros_control rx90 launch file -->
-  <include file="$(find rx90_control)/launch/rx90_control.launch" />
+  <include file="$(find rx90_control)/launch/rx90_control.launch" >
+ </include>
+
+ <!-- <include file="$(find rx90_control)/launch/rx90_control.launch" >
+  <arg name="nmspace" value="/rx90_2"/>
+ </include> -->
+
+
 
 </launch>

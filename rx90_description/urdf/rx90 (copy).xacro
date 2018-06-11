@@ -1,0 +1,887 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="rx90" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find rx90_description)/urdf/rx90.gazebo" />
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find rx90_description)/urdf/materials.xacro" />
+
+<!--gazebo>
+  <plugin name="rx90_publisher" filename="librx90_publisher.so"/>
+  </gazebo-->
+  <!-- Used for fixing robot to Gazebo 'base_link' -->
+  <link name="world"/>
+
+<!--BRAZOOOOOOOOOOOOOOOOOOOO-->
+
+
+<!-- Joint 0 -->
+   <link name="RIGHT/RX90_BARREL">
+      <visual>
+         <geometry>
+            <mesh filename="package://rx90_description/meshes/stl/RX-90_BARREL.stl" scale="0.001 0.001 0.001" />
+         </geometry>
+          <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+      </visual>
+      <collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_BARREL.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+   </link>
+   <joint name="RIGHT/RX90_BARREL_JOINT" type="fixed">
+      <parent link="world" />
+      <child link="RIGHT/RX90_BARREL" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+   </joint>
+
+    <link name="RIGHT/RX90_BASE">
+       <visual>
+	<origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_BASE.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_BASE.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_BASE_JOINT" type="fixed">
+       <parent link="RIGHT/RX90_BARREL" />
+       <child link="RIGHT/RX90_BASE" />
+       <origin rpy="0 0 0" xyz="0 0 1.005" />
+    </joint>
+
+    <link name="RIGHT/RX90_SHOULDER">
+       <visual>
+	<origin rpy="0 ${-pi/2} ${pi/2}" xyz="0.122 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_SHOULDER.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 ${-pi/2} ${pi/2}" xyz="0.122 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_SHOULDER.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_SHOULDER_JOINT" type="continuous">
+       <parent link="RIGHT/RX90_BASE" />
+       <child link="RIGHT/RX90_SHOULDER" />
+       <origin rpy="0 ${pi/2} 0" xyz="0 0 0.41" />
+    </joint>
+
+<link name="RIGHT/RX90_ARM">
+       <visual>
+	<origin rpy="0 0 ${pi/2}" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_ARM.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 ${pi/2}" xyz="0 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_ARM.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_ARM_JOINT" type="continuous">
+       <parent link="RIGHT/RX90_SHOULDER" />
+       <child link="RIGHT/RX90_ARM" />
+       <origin rpy="0 ${pi/2} ${pi/2}" xyz="0 0 -0.301" />
+    </joint>
+
+    <link name="RIGHT/RX90_ELBOW">
+       <visual>
+	<origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_ELBOW.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_ELBOW.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_ELBOW_JOINT" type="continuous">
+       <parent link="RIGHT/RX90_ARM" />
+       <child link="RIGHT/RX90_ELBOW" />
+       <origin rpy="0 0 0" xyz="-0.255 0 -0.46" />
+    </joint>
+
+
+  <link name="RIGHT/RX90_FOREARM">
+       <visual>
+	<origin rpy="${pi} ${-pi/2} 0" xyz="0.355 0.1 -0.05" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_FOREARM.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi} ${-pi/2} 0" xyz="0.355 0.1 -0.05" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_FOREARM.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_FOREARM_JOINT" type="continuous">
+       <parent link="RIGHT/RX90_ELBOW" />
+       <child link="RIGHT/RX90_FOREARM" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0 0 0" />
+    </joint>
+
+      <link name="RIGHT/RX90_WRIST">
+       <visual>
+	<origin rpy="${pi/2} 0 ${-pi/2}" xyz="-0.007 0 -0.01" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_WRIST.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi/2} 0 ${-pi/2}" xyz="-0.007 0 -0.01" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_WRIST.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_WRIST_JOINT" type="continuous">
+       <parent link="RIGHT/RX90_FOREARM" />
+       <child link="RIGHT/RX90_WRIST" />
+       <origin rpy="0 0 ${pi/2}" xyz="0.52 0 0" />
+    </joint>
+
+          <link name="RIGHT/RX90_FLANGE">
+       <visual>
+	<origin rpy="0 ${pi/2} 0" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 -0.009" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_FLANGE_JOINT" type="continuous">
+       <parent link="RIGHT/RX90_WRIST" />
+       <child link="RIGHT/RX90_FLANGE" />
+       <origin rpy="0 0 ${-pi/2}" xyz="-0.006 -0.1015 -0.009" />
+    </joint>
+
+
+          <link name="RIGHT/RX90_LGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_LGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
+       <parent link="RIGHT/RX90_FLANGE" />
+       <child link="RIGHT/RX90_LGRIPPER" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0.015" />
+    </joint>
+
+ <link name="RIGHT/RX90_RGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_RGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="-0.1" upper="0" velocity="0.5"/>
+       <parent link="RIGHT/RX90_FLANGE" />
+       <child link="RIGHT/RX90_RGRIPPER" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0.015" />
+    </joint>
+
+
+     <link name="RIGHT/RX90_MGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="RIGHT/RX90_MGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="-0.05" upper="0" velocity="0.5"/>
+       <parent link="RIGHT/RX90_FLANGE" />
+       <child link="RIGHT/RX90_MGRIPPER" />
+       <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0 -0.035" />
+    </joint>
+
+
+  
+<!--LEFTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT-->
+<link name="LEFT/RX90_BARREL">
+      <visual>
+         <geometry>
+            <mesh filename="package://rx90_description/meshes/stl/RX-90_BARREL.stl" scale="0.001 0.001 0.001" />
+         </geometry>
+          <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+      </visual>
+      <collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_BARREL.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+   </link>
+   <joint name="LEFT/RX90_BARREL_JOINT" type="fixed">
+      <parent link="world" />
+      <child link="LEFT/RX90_BARREL" />
+      <origin rpy="0 0 0" xyz="0 0 0" />
+   </joint>
+
+    <link name="LEFT/RX90_BASE">
+       <visual>
+	<origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_BASE.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_BASE.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_BASE_JOINT" type="fixed">
+       <parent link="LEFT/RX90_BARREL" />
+       <child link="LEFT/RX90_BASE" />
+       <origin rpy="0 0 0" xyz="0 0 1.005" />
+    </joint>
+
+    <link name="LEFT/RX90_SHOULDER">
+       <visual>
+	<origin rpy="0 ${-pi/2} ${pi/2}" xyz="0.122 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_SHOULDER.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 ${-pi/2} ${pi/2}" xyz="0.122 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_SHOULDER.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_SHOULDER_JOINT" type="continuous">
+       <parent link="LEFT/RX90_BASE" />
+       <child link="LEFT/RX90_SHOULDER" />
+       <origin rpy="0 ${pi/2} 0" xyz="0 0 0.41" />
+    </joint>
+
+<link name="LEFT/RX90_ARM">
+       <visual>
+	<origin rpy="0 0 ${pi/2}" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_ARM.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 ${pi/2}" xyz="0 0 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_ARM.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_ARM_JOINT" type="continuous">
+       <parent link="LEFT/RX90_SHOULDER" />
+       <child link="LEFT/RX90_ARM" />
+       <origin rpy="0 ${pi/2} ${pi/2}" xyz="0 0 -0.301" />
+    </joint>
+
+    <link name="LEFT/RX90_ELBOW">
+       <visual>
+	<origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_ELBOW.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_ELBOW.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_ELBOW_JOINT" type="continuous">
+       <parent link="LEFT/RX90_ARM" />
+       <child link="LEFT/RX90_ELBOW" />
+       <origin rpy="0 0 0" xyz="-0.255 0 -0.46" />
+    </joint>
+
+
+  <link name="LEFT/RX90_FOREARM">
+       <visual>
+	<origin rpy="${pi} ${-pi/2} 0" xyz="0.355 0.1 -0.05" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_FOREARM.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi} ${-pi/2} 0" xyz="0.355 0.1 -0.05" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_FOREARM.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_FOREARM_JOINT" type="continuous">
+       <parent link="LEFT/RX90_ELBOW" />
+       <child link="LEFT/RX90_FOREARM" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0 0 0" />
+    </joint>
+
+      <link name="LEFT/RX90_WRIST">
+       <visual>
+	<origin rpy="${pi/2} 0 ${-pi/2}" xyz="-0.007 0 -0.01" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_WRIST.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="${pi/2} 0 ${-pi/2}" xyz="-0.007 0 -0.01" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_WRIST.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_WRIST_JOINT" type="continuous">
+       <parent link="LEFT/RX90_FOREARM" />
+       <child link="LEFT/RX90_WRIST" />
+       <origin rpy="0 0 ${pi/2}" xyz="0.52 0 0" />
+    </joint>
+
+          <link name="LEFT/RX90_FLANGE">
+       <visual>
+	<origin rpy="0 ${pi/2} 0" xyz="0 0 0" />
+          <geometry>
+             <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 -0.009" />
+            <geometry>
+              <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_FLANGE_JOINT" type="continuous">
+       <parent link="LEFT/RX90_WRIST" />
+       <child link="LEFT/RX90_FLANGE" />
+       <origin rpy="0 0 ${-pi/2}" xyz="-0.006 -0.1015 -0.009" />
+    </joint>
+
+
+          <link name="LEFT/RX90_LGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_LGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
+       <parent link="LEFT/RX90_FLANGE" />
+       <child link="LEFT/RX90_LGRIPPER" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0.015" />
+    </joint>
+
+ <link name="LEFT/RX90_RGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_RGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="-0.1" upper="0" velocity="0.5"/>
+       <parent link="LEFT/RX90_FLANGE" />
+       <child link="LEFT/RX90_RGRIPPER" />
+       <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0.015" />
+    </joint>
+
+
+     <link name="LEFT/RX90_MGRIPPER">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.02 0.045 0.01"/>
+          </geometry>
+       </visual>
+	<collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.02 0.045 0.01"/>
+            </geometry>
+       </collision>
+       <selfCollide>true</selfCollide>
+	<inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="1" />
+        <inertia
+          ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+    </inertial>
+    </link>
+    <joint name="LEFT/RX90_MGRIPPER_JOINT" type="prismatic">
+    <limit effort="1000.0" lower="-0.05" upper="0" velocity="0.5"/>
+       <parent link="LEFT/RX90_FLANGE" />
+       <child link="LEFT/RX90_MGRIPPER" />
+       <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0 -0.035" />
+    </joint>
+ 
+
+
+<!--BRAZOOOOOOOOOOOOOOOOOOOOooooooooooooooooooooooooooooooooooooooo-->
+
+  <!-- Base Link -->
+
+  
+<!--TRANSMISION BRAZO-->
+
+
+<transmission name="tran_RIGHT/RX90_SHOULDER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_SHOULDER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_SHOULDER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<transmission name="tran_RIGHT/RX90_ARM_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_ARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_ARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_RIGHT/RX90_ELBOW_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_ELBOW_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_ELBOW_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_RIGHT/RX90_FOREARM_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_FOREARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_FOREARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_RIGHT/RX90_WRIST_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_WRIST_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_WRIST_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_RIGHT/RX90_FLANGE_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_FLANGE_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_FLANGE_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_RIGHT/RX90_LGRIPPER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_LGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_LGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_RIGHT/RX90_RGRIPPER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_RGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_RGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+      <transmission name="tran_RIGHT/RX90_MGRIPPER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RIGHT/RX90_MGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RIGHT/RX90_MGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<!--left transmision-->
+
+
+<transmission name="tran_LEFT/RX90_SHOULDER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_SHOULDER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_SHOULDER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+<transmission name="tran_LEFT/RX90_ARM_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_ARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_ARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_LEFT/RX90_ELBOW_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_ELBOW_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_ELBOW_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_LEFT/RX90_FOREARM_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_FOREARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_FOREARM_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_LEFT/RX90_WRIST_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_WRIST_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_WRIST_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="tran_LEFT/RX90_FLANGE_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_FLANGE_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_FLANGE_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_LEFT/RX90_LGRIPPER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_LGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_LGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+    <transmission name="tran_LEFT/RX90_RGRIPPER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_RGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_RGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+      <transmission name="tran_LEFT/RX90_MGRIPPER_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="LEFT/RX90_MGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_LEFT/RX90_MGRIPPER_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

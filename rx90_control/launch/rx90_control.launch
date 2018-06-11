@@ -1,11 +1,13 @@
 <launch>
-
+ <arg name="nmspace" default="/rx90_1"/>
   <!-- Load joint controller configurations from YAML file to parameter server -->
+
+  <!--TODO passing arguments to yaml files-->
   <rosparam file="$(find rx90_control)/config/rx90_control.yaml" command="load"/>
 
   <!-- load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen" ns="/rx90" args="joint_state_controller
+  <node name="controller_spawner_1" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="$(arg nmspace)" args="joint_state_controller
             RX90_SHOULDER_JOINT_position_controller
             RX90_ARM_JOINT_position_controller
             RX90_ELBOW_JOINT_position_controller
@@ -16,10 +18,33 @@
             RX90_RGRIPPER_JOINT_position_controller
             RX90_MGRIPPER_JOINT_position_controller"/>
 
+   <!-- <node name="controller_spawner_2" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/rx90_2" args="joint_state_controller
+            RX90_SHOULDER_JOINT_position_controller
+            RX90_ARM_JOINT_position_controller
+            RX90_ELBOW_JOINT_position_controller
+            RX90_FOREARM_JOINT_position_controller
+            RX90_WRIST_JOINT_position_controller
+            RX90_FLANGE_JOINT_position_controller
+            RX90_LGRIPPER_JOINT_position_controller
+            RX90_RGRIPPER_JOINT_position_controller
+            RX90_MGRIPPER_JOINT_position_controller"/> -->
+
+  
+
+
+
   <!-- convert joint states to TF transforms for rviz, etc -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+  <node name="robot_state_publisher_1" pkg="robot_state_publisher" type="robot_state_publisher"
 	respawn="false" output="screen">
-    <remap from="/joint_states" to="/rx90/joint_states" />
+    <remap from="/joint_states" to="$(arg nmspace)/joint_states" />
   </node>
+
+  <!-- <node name="robot_state_publisher_2" pkg="robot_state_publisher" type="robot_state_publisher"
+	respawn="false" output="screen">
+    <remap from="/joint_states" to="/rx90_2/joint_states" />
+  </node>
+  -->
+
 
 </launch>
