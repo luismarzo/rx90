@@ -6,11 +6,12 @@
   <arg name="pos_x" default="0.0"/>
   <arg name="pos_y" default="0.0"/>
   <arg name="pos_z" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
   <arg name="namespace_arg" default=""/>
 
 
 
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find rx90_description)/urdf/rx90.xacro'"  />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90.xacro'"  />
 
   <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model"
     args="-param robot_description
@@ -18,6 +19,7 @@
     -x $(arg pos_x)
     -y $(arg pos_y)
     -z $(arg pos_z)
+    -Y $(arg yaw)
     -model $(arg name)"
     respawn="false" output="screen">
   </node>

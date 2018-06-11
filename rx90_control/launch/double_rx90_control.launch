@@ -5,7 +5,7 @@
    <arg name="ns" default="/youbot" />
    <param name="robot_description"    command="$(find xacro)/xacro.py '$(find rx90_description)/urdf/rx90.xacro'"  />
    <group ns="$(arg ns)">
-  <rosparam file="$(find rx90_control)/config/zrx90_control.yaml" command="load" ns="$(arg ns)"/>
+  <rosparam file="$(find rx90_control)/config/double_rx90_control.yaml" command="load" ns="$(arg ns)"/>
 
   <!-- load the controllers -->
   <node name="controller_spawner_1" pkg="controller_manager" type="spawner" respawn="false"
