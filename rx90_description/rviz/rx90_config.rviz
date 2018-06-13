@@ -96,6 +96,16 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        RX90_MGRIPPER:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RX90_RGRIPPER:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         RX90_SHOULDER:
           Alpha: 1
           Show Axes: false
@@ -162,25 +172,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.386459678
+      Distance: 2.05483031
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.00403334573
-        Y: -0.546613276
-        Z: 0.783630431
+        X: 0.261327118
+        Y: -0.342946261
+        Z: 0.950232327
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: -1.30979657
+      Pitch: 0.120203219
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.69220781
+      Yaw: 5.49721241
     Saved: ~
 Window Geometry:
   Displays:

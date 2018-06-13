@@ -89,7 +89,8 @@
           izz="1.0" />
     </inertial>
     </link>
-    <joint name="RX90_SHOULDER_JOINT" type="continuous">
+    <joint name="RX90_SHOULDER_JOINT" type="revolute">
+    <limit effort="10000" lower="-2.7925" upper="2.7925" velocity="4.1189"/>
        <parent link="RX90_BASE" />
        <child link="RX90_SHOULDER" />
        <origin rpy="0 ${pi/2} 0" xyz="0 0 0.41" />
@@ -118,12 +119,14 @@
           izz="1.0" />
     </inertial>
     </link>
-    <joint name="RX90_ARM_JOINT" type="continuous">
+    <joint name="RX90_ARM_JOINT" type="revolute">
+    
+    <limit effort="10000" lower="-0.82" upper="3.96" velocity="3.4906"/>
        <parent link="RX90_SHOULDER" />
        <child link="RX90_ARM" />
        <origin rpy="0 ${pi/2} ${pi/2}" xyz="0 0 -0.301" />
     </joint>
-
+<!--a la restriccion del paper le sumo 90 grados para que los limites esten bien por la colocacion de las piezas -->
     <link name="RX90_ELBOW">
        <visual>
 	<origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
@@ -147,7 +150,9 @@
           izz="1.0" />
     </inertial>
     </link>
-    <joint name="RX90_ELBOW_JOINT" type="continuous">
+    <joint name="RX90_ELBOW_JOINT" type="revolute">
+    <!-- <limit effort="10000" lower="-2.4870" upper="2.4870" velocity="4.9916"/> -->
+    <limit effort="10000" lower="-0.917" upper="4.057" velocity="4.9916"/>
        <parent link="RX90_ARM" />
        <child link="RX90_ELBOW" />
        <origin rpy="0 0 0" xyz="-0.255 0 -0.46" />
@@ -177,7 +182,8 @@
           izz="1.0" />
     </inertial>
     </link>
-    <joint name="RX90_FOREARM_JOINT" type="continuous">
+    <joint name="RX90_FOREARM_JOINT" type="revolute">
+    <limit effort="10000" lower="-4.712" upper="4.712" velocity="6.9987"/>
        <parent link="RX90_ELBOW" />
        <child link="RX90_FOREARM" />
        <origin rpy="0 0 ${-pi/2}" xyz="0 0 0" />
@@ -206,7 +212,8 @@
           izz="1.0" />
     </inertial>
     </link>
-    <joint name="RX90_WRIST_JOINT" type="continuous">
+    <joint name="RX90_WRIST_JOINT" type="revolute">
+    <limit effort="10000" lower="-2" upper="1.8325" velocity="5.585"/>
        <parent link="RX90_FOREARM" />
        <child link="RX90_WRIST" />
        <origin rpy="0 0 ${pi/2}" xyz="0.52 0 0" />
@@ -235,7 +242,8 @@
           izz="1.0" />
     </inertial>
     </link>
-    <joint name="RX90_FLANGE_JOINT" type="continuous">
+    <joint name="RX90_FLANGE_JOINT" type="revolute">
+    <limit effort="10000" lower="-4.712" upper="4.712" velocity="10.122"/>
        <parent link="RX90_WRIST" />
        <child link="RX90_FLANGE" />
        <origin rpy="0 0 ${-pi/2}" xyz="-0.006 -0.1015 -0.009" />
