@@ -2,8 +2,7 @@ all: server Rx90.o
 	rm -rf *.o
 
 server: server.cpp serverModBUS.o Rx90.o
-	g++ -o $@ -g -I/usr/local/include/ $< serverModBUS.o Rx90.o -
-L/usr/local/lib/ -lserial -lpthread -lmodbus
+	g++ -o $@ -g -I/usr/local/include/ $< serverModBUS.o Rx90.o -L/usr/local/lib/ -lserial -lpthread -lmodbus
 
 #server.o: server.cpp
 #	g++ -c server.cpp
