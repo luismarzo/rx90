@@ -67,11 +67,11 @@ printf("CONTROL MANUAL\n");
 while(option!='0')//mientras no se pulse salir se vuelve al menu tras realizar las distintas opciones
 {
 printf("\nControl por teclado numerico:\n");
-printf("(8)\n");
-printf("^\n");
-printf("(4)<   >(6)\n");
-printf("v\n");
-printf("(2)\n\n");
+printf("	(8)	\n");
+printf("	 ^\n");
+printf("    (4)<   >(6)\n");
+printf("	 v\n");
+printf("	(2)\n\n");
 printf("5-Cerrar/Abrir pinza\n\n");
 printf("0-Salir\n\n");
 printf("Opción elegida: ");
