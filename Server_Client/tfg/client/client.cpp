@@ -188,7 +188,6 @@ imprimePosicion(position);
 }
 else
 printf("Error en operacion LECTURA DE VARIOS REGISTROS\n");
-/*****************/
 sleep(4);
 // Abrimos la pinza
 if(modbus.read_only_register(ADDR_PINZA,&value))
@@ -268,8 +267,7 @@ printf("La posición obtenida es: ");
 imprimePosicion(position);
 }
 else
-printf("Error en operacion LECTURA DE VARIOS
-REGISTROS\n");
+printf("Error en operacion LECTURA DE VARIOS REGISTROS\n");
 /*****************/
 sleep(4);
 // Abrimos la pinza

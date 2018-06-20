@@ -1,25 +1,17 @@
 /************************************************************************/
-/*
-*/
-/*
-SERVIDOR MODBUS PARA RX90
-*/
-/*
-*/
+
+/*SERVIDOR MODBUS PARA RX90*/
+
+
 /************************************************************************/
 #include "serverModBUS.h"
 #include "constant.h"
 /**********************************************************/
-/* Constructor:Inicializa las variables de la clase
-*/
-/* modbus
-*/
-/*
-*/
-/* Recibe: Nada
-*/
-/* Devuelve: Nada
-*/
+/* Constructor:Inicializa las variables de la clase*/
+/* modbus*/
+/**/
+/* Recibe: Nada*/
+/* Devuelve: Nada*/
 /**********************************************************/
 serverModBUS::serverModBUS()
 {
@@ -27,40 +19,21 @@ mb_mapping=NULL;
 ctx=NULL;
 rc=-1;
 }
-/****************************************************************************
-****/
-/* init: Inicializa la tabla de registros y el contexto TCP
-*/
-/* del cliente
-*/
-/*
-*/
-/* Recibe:
-*/
-/*
-ipServer: IP del servidor
-*/
+/********************************************************************************/
+/* init: Inicializa la tabla de registros y el contexto TCP*/
+/* del cliente*/
+/**/
+/* Recibe:*/
+/*ipServer: IP del servidor*/
 
-/*
-portServer: Puerto del servidor
-*/
-/*
-num_holding_registers: Número de registros de lectura y escritura
-*/
-/*
-*/
-/* Devuelve: (bool)
-*/
-/*
-true: Servidor iniciado correctamente
-*/
-/*
-false: error al inicializar
-*/
-/*
-*/
-/****************************************************************************
-****/
+/*portServer: Puerto del servidor*/
+/*num_holding_registers: Número de registros de lectura y escritura*/
+/**/
+/* Devuelve: (bool)*/
+/*true: Servidor iniciado correctamente*/
+/*false: error al inicializar*/
+/**/
+/********************************************************/
 bool serverModBUS::init(char* ipServer, uint16_t portServer,int
 num_holding_registers)
 {
@@ -80,28 +53,17 @@ return false;
 socket = modbus_tcp_listen(ctx, 10);
 return true;
 }
-/****************************************************************************
-****/
-/* waitClient: Espera la conexión de un cliente
-*/
-/*
-*/
-/*
-/*
-Recibe: Nada
-Devuelve:
-*/
-*/
-/*
-*/
-/****************************************************************************
-****/
+/********************************************************************************/
+/* waitClient: Espera la conexión de un cliente*/
+/**/
+/*Recibe: Nada Devuelve:*/
+/**/
+/********************************************************************************/
 void serverModBUS::waitClient()
 {
 modbus_tcp_accept(ctx, &socket);
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 /* read_only_register: Realiza la lectura de un solo registro
 Recibe:
 addr: direccion del registro a leer
@@ -109,8 +71,7 @@ Devuelve:(int)
 Valor del registro leído o -1 si ha habido error 
  */
 
-/****************************************************************************
-****/
+/********************************************************************************/
 int serverModBUS::read_only_register(uint16_t addr)
 {
 int value;
@@ -122,32 +83,23 @@ return value;
 else
 return -1;
 }
-/****************************************************************************
-****/
-/* read_many_registes: Realiza la lectura de varios registros
-*/
-/*
-*/
-/* Recibe:
-*/
+/********************************************************************************/
+/* read_many_registes: Realiza la lectura de varios registros*/
+/**/
+/* Recibe:*/
 /*
 addr: direccion del primer registro a leer
-/*
 num_registers: número de registros a leer
-/* Devuelve: vector <int>
-/*
-Vector con los valores de los registros o vector vacio
+Devuelve: vector <int>
+
+Vector con los valores de los registros o vector vacio si ha habido error
 */
-/*
-si ha habido error
-*/
-*/
-*/
-*/
-/*
-*/
-/****************************************************************************
-****/
+
+
+
+
+
+/********************************************************************************/
 vector<int> serverModBUS::read_many_registers(uint16_t addr,int num_registers)
 {
 vector <int> values;
@@ -158,32 +110,22 @@ values.push_back(mb_mapping->tab_registers[addr+i]);
 }
 return values;
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 /* write_only_register: Realiza la escritura de un solo registro
-*/
-/*
-*/
-/* Recibe:
-/*
+
+ Recibe:
+
 addr: direccion del registro a escribir
-/*
+
 value: valor del registro a escribir
-/* Devuelve:(bool)
-/*
+ Devuelve:(bool)
+
 true: Operación realizada correctamente
-/*
+
 false: Operación fallida
+
 */
-*/
-*/
-*/
-*/
-*/
-/*
-*/
-/****************************************************************************
-****/
+/**************************************************************************** ****/
 
 bool serverModBUS::write_only_register(uint16_t addr,int value)
 {
@@ -198,37 +140,25 @@ return true;
 else
 return false;
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 /* write_many_register: Realiza la escritura de varios registros
-*/
-/*
-*/
-/* Recibe:
-*/
-/*
+
+ Recibe:
+
 addr: direccion del primer registro a escribir
-/*
+
 num_registers: Numeros de registros a escribir
-/*
+
 values: vector con los valores de los registros a escribir
-/*
-/* Devuelve:(bool)
-/*
+
+ Devuelve:(bool)
+
 true: Operación realizada correctamente
-/*
+
 false: Operación fallida
+
 */
-*/
-*/
-*/
-*/
-*/
-*/
-/*
-*/
-/****************************************************************************
-****/
+/********************************************************************************/
 bool serverModBUS::write_many_registers(uint16_t addr,int num_registers,vector <int> values)
 {
 if(num_registers<=values.size())
@@ -248,50 +178,34 @@ else
 return false;
 }
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 
 /* receive_command: Se queda esperando hasta recibir una serie de
-*/
-/* comandos concretos
-*/
-/*
-*/
-/*
-*/
-/* Recibe: Nada
-*/
-/*
-*/
-/* Devuelve:(int)
-*/
-/*
+
+ comandos concretos
+
+ Recibe: Nada
+
+ Devuelve:(int)
+
 Comandos posibles:
-*/
-/*
+
 ROBOT COMMAND
 1
 (Comando hacia el robot)
-*/
-/*
+
 BREAKER COMMAND ACTION
 2
 (Comando de breaker)
-*/
-/*
+
 ROBOT BREAKER COMMAND ACTION 3
 (Comando de robot y breaker)
-*/
-/*
+
 DISCONNECT
 4 (Cliente desconectado)
+
 */
-/*
-*/
-/*
-*/
-/****************************************************************************
-****/
+/********************************************************************************/
 int serverModBUS::receiveCommand()
 {
 int type_request;
@@ -302,8 +216,7 @@ do
 {
 rc = modbus_receive(ctx, query);
 //if(kbhit())
-//
-tecla = getch();
+//tecla = getch();
 if (rc != -1)
 {
 type_request=analizeRequest();
@@ -345,21 +258,15 @@ applyCommand=DISCONNECT;
 }while(applyCommand == NO_COMMAND && tecla!='q');
 return applyCommand;
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 /* sendConfirmation: envía una confirmación de que la petición se ha
-*/
-/* realizado correctamente
-*/
-/*
-*/
-/*
-*/
-/* Recibe: Nada
-*/
-/* Devuelve:Nada
-*/
-/*
+
+ realizado correctamente
+
+ Recibe: Nada
+
+ Devuelve:Nada
+
 */
 /****************************************************************************
 ****/
@@ -367,78 +274,58 @@ void serverModBUS::sendConfirmation()
 {
 modbus_reply(ctx, query, rc, mb_mapping);
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 /* sendConfirmation: envía una excepción si la petición no se ha
+
+ realizado correctamente
+
+Recibe: Nada
+
+ Devuelve:Nada
+
 */
-/* realizado correctamente
-*/
-/*
-*/
-/*
-*/
-/* Recibe: Nada
-*/
-/* Devuelve:Nada
-*/
-/*
-*/
-/****************************************************************************
-****/
+/********************************************************************************/
 void serverModBUS::sendException(int exception)
 {
 modbus_reply_exception(ctx,query,exception);
 }
-/****************************************************************************
-****/
+/********************************************************************************/
 /* close: Cierra el servidor modBUS y libera la tabla de registros
-*/
-/*
 
 
-/* Recibe: Nada
+
+ Recibe: Nada
+
+ Devuelve:Nada
+
 */
-/* Devuelve:Nada
-*/
-/*
-*/
-/****************************************************************************
-****/
+/********************************************************************************/
 void serverModBUS::close()
 {
 modbus_mapping_free(mb_mapping);
 modbus_close(ctx);
 modbus_free(ctx);
 }
-/****************************************************************************
-****/
+/*******************************************************************************/
 /* analizeRequest: Analiza el tipo de petición
-*/
-/*
-*/
-/* Recibe: Nada
-*/
-/* Devuelve:(int)
-*/
-/*
+
+ Recibe: Nada
+
+ Devuelve:(int)
+
 READ_ONLY 0 (solo lectura)
-*/
-/*
+
 WRITE_ONLY 1
 (solo escritura)
-*/
-/*
+
 READ_WRITE 2
 (lectura y escritura)
-*/
-/*
+
 NOT_PERMITTED 3
 (petición rechazada)
+
 */
-/*
-*/
-/****************************************************************************
-****/
+/********************************************************************************/
 int serverModBUS::analizeRequest()
 {
 int type;
