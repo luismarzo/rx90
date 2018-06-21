@@ -15,7 +15,9 @@ void imprimePosicion(uint16_t position[6]);
 int main()
 {
 
-char direccion[16]="127.0.0.1"; // 192.168.109.148
+//char direccion[16]="127.0.0.1"; // 192.168.109.148
+char direccion[16]="192.168.109.148";
+//char direccion[16]="10.100.182.173";
 int puerto=1502;
 char newPosition[29]="0,0,10,-90,-90,0"; // 0,-150,10,-90,-90,0
 int numReg;
