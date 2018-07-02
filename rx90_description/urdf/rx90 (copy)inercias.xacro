@@ -66,7 +66,7 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-       <mass value="23.085357"/>
+        <mass value="23.085357"/>
           <origin xyz="0.007579 0.000017 0.180670" rpy="0.0 0.0 0.0"/>
           <inertia ixx="0.343576" ixy="-0.000062" ixz="-0.002079"
                                   iyy="0.336217"  iyz="-0.000014"
@@ -94,7 +94,7 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-      <mass value="45.357763"/>
+        <mass value="45.357763"/>
           <origin xyz="0.085479 -0.002547 -0.040488" rpy="0.0 0.0 0.0"/>
           <inertia ixx="0.839141" ixy="0.022637" ixz="0.162457"
                                   iyy="1.030146" iyz="0.027416"
@@ -152,7 +152,7 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-  <mass value="19.754401"/>
+        <mass value="19.754401"/>
           <origin xyz="-0.000255 0.016478 -0.003819" rpy="0.0 0.0 0.0"/>
           <inertia ixx="0.249388" ixy="-0.004901" ixz="0.004825"
                                   iyy="0.211780"  iyz="0.000574"
@@ -182,7 +182,7 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <mass value="15.287896"/>
+       <mass value="15.287896"/>
           <origin xyz="-0.015515 0.000164 0.340348" rpy="0.0 0.0 0.0"/>
           <inertia ixx="0.331593" ixy="0.000055" ixz="-0.010688"
                                   iyy="0.320895" iyz="0.000058"
@@ -211,7 +211,7 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-       <mass value="0.548088"/>
+        <mass value="0.548088"/>
           <origin xyz="0.000000 -0.000347 0.023671" rpy="0.0 0.0 0.0"/>
           <inertia ixx="0.000876" ixy="0.000000" ixz="0.000000"
                                   iyy="0.000889" iyz="0.000005"
@@ -240,12 +240,12 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-         <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
          <mass value="0.038484"/>
           <origin xyz="-0.000245 0.000000 -0.007626" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="0" ixy="0.000000" ixz="0.000000"
-                                  iyy="0.0000" iyz="0.000000"
-                                                  izz="0.0000"/>
+          <inertia ixx="0.000011" ixy="0.000000" ixz="0.000000"
+                                  iyy="0.000011" iyz="0.000000"
+                                                  izz="0.000021"/>
     </inertial>
     </link>
     <joint name="RX90_FLANGE_JOINT" type="revolute">
@@ -272,15 +272,14 @@
        <selfCollide>true</selfCollide>
 	<inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.038484" />
-        <inertia
-          ixx="0.0" ixy="0.0" ixz="0.0"
-          iyy="0.0" iyz="0.0"
-          izz="0.0" />
+         <mass value="0.018484"/>
+          <inertia ixx="0.000011" ixy="0.000000" ixz="0.000000"
+                                  iyy="0.000011" iyz="0.000000"
+                                                  izz="0.000021"/>
     </inertial>
     </link>
     <joint name="RX90_LGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-100000" upper="1" velocity="20"/>
+    <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_LGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0.015" />
@@ -301,17 +300,16 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-       <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.038484" />
-        <inertia
-          ixx="0.0" ixy="0.0" ixz="0.0"
-          iyy="0.0" iyz="0.0"
-          izz="0.0" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+         <mass value="0.018484"/>
+          <inertia ixx="0.000011" ixy="0.000000" ixz="0.000000"
+                                  iyy="0.000011" iyz="0.000000"
+                                                  izz="0.000021"/>
     
     </inertial>
     </link>
     <joint name="RX90_RGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-100000" upper="1" velocity="20"/>
+    <limit effort="1000.0" lower="-0.1" upper="0" velocity="0.5"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_RGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0.015" />
@@ -333,17 +331,16 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-       <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="0.038484" />
-        <inertia
-          ixx="0.0" ixy="0.0" ixz="0.0"
-          iyy="0.0" iyz="0.0"
-          izz="0.0" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
+         <mass value="0.018484"/>
+          <inertia ixx="0.000011" ixy="0.000000" ixz="0.000000"
+                                  iyy="0.000011" iyz="0.000000"
+                                                  izz="0.000021"/>
     
     </inertial>
     </link>
     <joint name="RX90_MGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-100000" upper="1" velocity="20"/>
+    <limit effort="1000.0" lower="-0.05" upper="0" velocity="0.5"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_MGRIPPER" />
        <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0 -0.035" />
