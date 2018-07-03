@@ -22,10 +22,10 @@ CONSTANTES DEL CLIENTE DEL RX90
 #define READ_WRITE 2
 #define NOT_PERMITTED 3
 // Comandos Modbus
-#define READ_REGISTERS 0x03 // Valor que indica el comando para leer registros
+#define READ_REGISTERS 0x03           // Valor que indica el comando para leer registros
 #define WRITE_MULTIPLE_REGISTERS 0x10 // Valor que indica el comando para escribir varios registros
-#define WRITE_ONLY_REGISTER 0x06 // Valor que indica el comando para escribir un único registro
-#define READ_WRITE_REGISTERS 0x17 // Valor que indica el comando para leer/escribir registros
+#define WRITE_ONLY_REGISTER 0x06      // Valor que indica el comando para escribir un único registro
+#define READ_WRITE_REGISTERS 0x17     // Valor que indica el comando para leer/escribir registros
 #define WRITE_MASK_REGISTER 0X16
 #define READ_FIFO 0x18 // Valor que indica el comando para leer registros de la pila
 //Estado del sistema (ADDR_RX90_STATE)
@@ -48,12 +48,8 @@ CONSTANTES DEL CLIENTE DEL RX90
 
 #define ROBOT_AUTOMOVE 307
 //Errores
-#define ERROR_NO_ERROR  801
+#define ERROR_NO_ERROR 801
 #define ERROR_UNKNOW 802
 #define ERROR_SENSOR 803
 #define ERROR_ACTUADOR 804
 #define ERROR_MODBUS 800
-
-
-
-
