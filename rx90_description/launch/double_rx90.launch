@@ -20,7 +20,7 @@
   </include>
 
   
-
+    <node name="Serial_test" pkg="rx90_serial" type="rx90_serial_test"  output="screen"/>
 
      <param name="robot_description"    command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90.xacro'"  />
 

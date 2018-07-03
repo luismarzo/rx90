@@ -42,10 +42,15 @@ include_directories(
 file(GLOB_RECURSE SRC_FILES "src/*.cpp" "include/*.h" "include/*.inl" )
 
 # Add Executable
-add_executable(${PROJECT_NAME} ${SRC_FILES})
-include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
+#add_executable(${PROJECT_NAME} ${SRC_FILES})
+#include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
 
-target_link_libraries(${PROJECT_NAME} pthread serial)
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+#target_link_libraries(${PROJECT_NAME} pthread serial)
+#target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+
+add_executable(rx90_serial_test ${SRC_FILES})
+include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(rx90_serial_test pthread serial)
+target_link_libraries(rx90_serial_test ${CMAKE_THREAD_LIBS_INIT})
 
 
