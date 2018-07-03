@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rx90_serial)
 
+ if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-std=c++11 -Wl,--no-as-needed)
+ endif()
+
+add_definitions(-lpthread)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
 
@@ -12,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
 )
-
+find_package(Threads REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -31,5 +37,15 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
+
+# Collect all sources
+file(GLOB_RECURSE SRC_FILES "src/*.cpp" "include/*.h" "include/*.inl" )
+
+# Add Executable
+add_executable(${PROJECT_NAME} ${SRC_FILES})
+include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
+
+target_link_libraries(${PROJECT_NAME} pthread serial)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 

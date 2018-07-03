@@ -19,7 +19,7 @@ public:
 	Rx90(const std::string& serialPort, const std::string& originPoint);
 	~Rx90();
 
-  enum Action { NONE, UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, CATCH };
+  enum Action { NONE, UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT, CATCH ,POSITION};
 	static void printAction(const Action& action);
 	void move(const Action& action);
 	void panic();
@@ -28,6 +28,7 @@ private:
 	void init(const std::string& serialPort, const std::string& originPoint);
 	void close();
 	void catchIt();
+	void move_position(const std::string &PPoint);
 	void sendCommand(const std::string& command, bool waitQuestionMark = false);
 	LibSerial::SerialStream serial;
 	double x, y;
