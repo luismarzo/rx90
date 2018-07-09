@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="rx90">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="rx90_arm">
+        <joint name="RX90_BARREL_JOINT" />
+        <joint name="RX90_BASE_JOINT" />
+        <joint name="RX90_SHOULDER_JOINT" />
+        <joint name="RX90_ARM_JOINT" />
+        <joint name="RX90_ELBOW_JOINT" />
+        <joint name="RX90_FOREARM_JOINT" />
+        <joint name="RX90_WRIST_JOINT" />
+        <joint name="RX90_FLANGE_JOINT" />
+        <joint name="RX90_LGRIPPER_JOINT" />
+        <joint name="RX90_MGRIPPER_JOINT" />
+        <joint name="RX90_RGRIPPER_JOINT" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="Default" group="rx90_arm">
+        <joint name="RX90_ARM_JOINT" value="0" />
+        <joint name="RX90_ELBOW_JOINT" value="0" />
+        <joint name="RX90_FLANGE_JOINT" value="0" />
+        <joint name="RX90_FOREARM_JOINT" value="0" />
+        <joint name="RX90_LGRIPPER_JOINT" value="0" />
+        <joint name="RX90_MGRIPPER_JOINT" value="0" />
+        <joint name="RX90_RGRIPPER_JOINT" value="0" />
+        <joint name="RX90_SHOULDER_JOINT" value="0" />
+        <joint name="RX90_WRIST_JOINT" value="0" />
+    </group_state>
+    <group_state name="extend" group="rx90_arm">
+        <joint name="RX90_ARM_JOINT" value="1.5963" />
+        <joint name="RX90_ELBOW_JOINT" value="1.5153" />
+        <joint name="RX90_FLANGE_JOINT" value="0" />
+        <joint name="RX90_FOREARM_JOINT" value="0" />
+        <joint name="RX90_LGRIPPER_JOINT" value="0" />
+        <joint name="RX90_MGRIPPER_JOINT" value="0" />
+        <joint name="RX90_RGRIPPER_JOINT" value="-0.024" />
+        <joint name="RX90_SHOULDER_JOINT" value="-0.5217" />
+        <joint name="RX90_WRIST_JOINT" value="0" />
+    </group_state>
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="virtual_joint" type="fixed" parent_frame="world" child_link="RX90_BARREL" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="RX90_ARM" link2="RX90_BARREL" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_BASE" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_ELBOW" reason="Adjacent" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_FLANGE" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_FOREARM" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_LGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_MGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_SHOULDER" reason="Adjacent" />
+    <disable_collisions link1="RX90_ARM" link2="RX90_WRIST" reason="Never" />
+    <disable_collisions link1="RX90_BARREL" link2="RX90_BASE" reason="Adjacent" />
+    <disable_collisions link1="RX90_BARREL" link2="RX90_ELBOW" reason="Never" />
+    <disable_collisions link1="RX90_BARREL" link2="RX90_LGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_BARREL" link2="RX90_MGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_BARREL" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_BARREL" link2="RX90_SHOULDER" reason="Never" />
+    <disable_collisions link1="RX90_BASE" link2="RX90_ELBOW" reason="Never" />
+    <disable_collisions link1="RX90_BASE" link2="RX90_LGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_BASE" link2="RX90_MGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_BASE" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_BASE" link2="RX90_SHOULDER" reason="Adjacent" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_FLANGE" reason="Never" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_FOREARM" reason="Adjacent" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_LGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_MGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_SHOULDER" reason="Never" />
+    <disable_collisions link1="RX90_ELBOW" link2="RX90_WRIST" reason="Never" />
+    <disable_collisions link1="RX90_FLANGE" link2="RX90_LGRIPPER" reason="Adjacent" />
+    <disable_collisions link1="RX90_FLANGE" link2="RX90_MGRIPPER" reason="Adjacent" />
+    <disable_collisions link1="RX90_FLANGE" link2="RX90_RGRIPPER" reason="Adjacent" />
+    <disable_collisions link1="RX90_FLANGE" link2="RX90_SHOULDER" reason="Never" />
+    <disable_collisions link1="RX90_FLANGE" link2="RX90_WRIST" reason="Adjacent" />
+    <disable_collisions link1="RX90_FOREARM" link2="RX90_LGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_FOREARM" link2="RX90_MGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_FOREARM" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_FOREARM" link2="RX90_WRIST" reason="Adjacent" />
+    <disable_collisions link1="RX90_LGRIPPER" link2="RX90_MGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_LGRIPPER" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_LGRIPPER" link2="RX90_SHOULDER" reason="Never" />
+    <disable_collisions link1="RX90_LGRIPPER" link2="RX90_WRIST" reason="Never" />
+    <disable_collisions link1="RX90_MGRIPPER" link2="RX90_RGRIPPER" reason="Never" />
+    <disable_collisions link1="RX90_MGRIPPER" link2="RX90_SHOULDER" reason="Never" />
+    <disable_collisions link1="RX90_MGRIPPER" link2="RX90_WRIST" reason="Never" />
+    <disable_collisions link1="RX90_RGRIPPER" link2="RX90_SHOULDER" reason="Never" />
+    <disable_collisions link1="RX90_RGRIPPER" link2="RX90_WRIST" reason="Never" />
+    <disable_collisions link1="RX90_SHOULDER" link2="RX90_WRIST" reason="Never" />
+</robot>

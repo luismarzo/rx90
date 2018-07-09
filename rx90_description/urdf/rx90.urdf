@@ -52,12 +52,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+       <mass value="23.085357"/>
+          <origin xyz="0.007579 0.000017 0.180670" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="0.343576" ixy="-0.000062" ixz="-0.002079"
+                                  iyy="0.336217"  iyz="-0.000014"
+                                                  izz="0.334050"/>
     </inertial>
     </link>
     <joint name="RX90_BASE_JOINT" type="fixed">
@@ -81,12 +80,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+      <mass value="45.357763"/>
+          <origin xyz="0.085479 -0.002547 -0.040488" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="0.839141" ixy="0.022637" ixz="0.162457"
+                                  iyy="1.030146" iyz="0.027416"
+                                                  izz="1.064698"/>
     </inertial>
     </link>
     <joint name="RX90_SHOULDER_JOINT" type="revolute">
@@ -111,22 +109,20 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+        <mass value="51.266495"/>
+          <origin xyz="-0.000002 0.264164 0.347704" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="5.272800" ixy="0.000010" ixz="0.000017"
+                                  iyy="5.536809" iyz="-0.008261"
+                                                  izz="0.486191"/>
     </inertial>
     </link>
     <joint name="RX90_ARM_JOINT" type="revolute">
-    
     <limit effort="10000" lower="-0.82" upper="3.96" velocity="3.4906"/>
        <parent link="RX90_SHOULDER" />
        <child link="RX90_ARM" />
        <origin rpy="0 ${pi/2} ${pi/2}" xyz="0 0 -0.301" />
     </joint>
-<!--a la restriccion del paper le sumo 90 grados para que los limites esten bien por la colocacion de las piezas -->
+
     <link name="RX90_ELBOW">
        <visual>
 	<origin rpy="${-pi/2} ${-pi/2} ${-pi/2}" xyz="-0.021 0.14 0" />
@@ -142,16 +138,14 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+  <mass value="19.754401"/>
+          <origin xyz="-0.000255 0.016478 -0.003819" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="0.249388" ixy="-0.004901" ixz="0.004825"
+                                  iyy="0.211780"  iyz="0.000574"
+                                                  izz="0.238488"/>
     </inertial>
     </link>
     <joint name="RX90_ELBOW_JOINT" type="revolute">
-    <!-- <limit effort="10000" lower="-2.4870" upper="2.4870" velocity="4.9916"/> -->
     <limit effort="10000" lower="-0.917" upper="4.057" velocity="4.9916"/>
        <parent link="RX90_ARM" />
        <child link="RX90_ELBOW" />
@@ -174,12 +168,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+        <mass value="15.287896"/>
+          <origin xyz="-0.015515 0.000164 0.340348" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="0.331593" ixy="0.000055" ixz="-0.010688"
+                                  iyy="0.320895" iyz="0.000058"
+                                                  izz="0.086557"/>
     </inertial>
     </link>
     <joint name="RX90_FOREARM_JOINT" type="revolute">
@@ -204,12 +197,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+       <mass value="0.548088"/>
+          <origin xyz="0.000000 -0.000347 0.023671" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="0.000876" ixy="0.000000" ixz="0.000000"
+                                  iyy="0.000889" iyz="0.000005"
+                                                  izz="0.000412"/>
     </inertial>
     </link>
     <joint name="RX90_WRIST_JOINT" type="revolute">
@@ -227,19 +219,19 @@
           </geometry>
        </visual>
 	<collision>
-        <origin rpy="0 ${pi/2} 0" xyz="0 0 0" />
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 -0.009" />
             <geometry>
               <mesh filename="package://rx90_description/meshes/stl/RX-90_FLANGE.stl" scale="0.001 0.001 0.001" />
             </geometry>
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
-        <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+         <origin xyz="0 0 0" rpy="0 0 0" />
+         <mass value="0.038484"/>
+          <origin xyz="-0.000245 0.000000 -0.007626" rpy="0.0 0.0 0.0"/>
+          <inertia ixx="0" ixy="0.000000" ixz="0.000000"
+                                  iyy="0.0000" iyz="0.000000"
+                                                  izz="0.0000"/>
     </inertial>
     </link>
     <joint name="RX90_FLANGE_JOINT" type="revolute">
@@ -266,15 +258,15 @@
        <selfCollide>true</selfCollide>
 	<inertial>
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
+        <mass value="0.038484" />
         <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+          ixx="0.0" ixy="0.0" ixz="0.0"
+          iyy="0.0" iyz="0.0"
+          izz="0.0" />
     </inertial>
     </link>
     <joint name="RX90_LGRIPPER_JOINT" type="prismatic">
-    <limit effort="1000.0" lower="0" upper="0.1" velocity="0.5"/>
+    <limit effort="100000.0" lower="-100000" upper="1" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_LGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0.015" />
@@ -295,16 +287,17 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
+       <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.038484" />
         <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+          ixx="0.0" ixy="0.0" ixz="0.0"
+          iyy="0.0" iyz="0.0"
+          izz="0.0" />
+    
     </inertial>
     </link>
     <joint name="RX90_RGRIPPER_JOINT" type="prismatic">
-    <limit effort="1000.0" lower="-0.1" upper="0" velocity="0.5"/>
+    <limit effort="100000.0" lower="-100000" upper="1" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_RGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0.015" />
@@ -326,21 +319,23 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
+       <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.038484" />
         <inertia
-          ixx="1.0" ixy="0.0" ixz="0.0"
-          iyy="1.0" iyz="0.0"
-          izz="1.0" />
+          ixx="0.0" ixy="0.0" ixz="0.0"
+          iyy="0.0" iyz="0.0"
+          izz="0.0" />
+    
     </inertial>
     </link>
     <joint name="RX90_MGRIPPER_JOINT" type="prismatic">
-    <limit effort="1000.0" lower="-0.05" upper="0" velocity="0.5"/>
+    <limit effort="100000.0" lower="-100000" upper="1" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_MGRIPPER" />
        <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0 -0.035" />
     </joint>
+ 
 
-<selfCollide>true</selfCollide>
+
  
 </robot>

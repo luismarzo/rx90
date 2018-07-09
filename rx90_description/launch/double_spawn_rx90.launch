@@ -21,7 +21,7 @@
     -z $(arg pos_z)
     -Y $(arg yaw)
     -model $(arg name)"
-    respawn="false" output="screen">
+    respawn="false">
   </node>
 </launch>
 

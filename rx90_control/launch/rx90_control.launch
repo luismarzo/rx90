@@ -7,7 +7,7 @@
 
   <!-- load the controllers -->
   <node name="controller_spawner_1" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen" ns="$(arg nmspace)" args="joint_state_controller
+	output="log" ns="$(arg nmspace)" args="joint_state_controller
             RX90_SHOULDER_JOINT_position_controller
             RX90_ARM_JOINT_position_controller
             RX90_ELBOW_JOINT_position_controller
@@ -36,7 +36,7 @@
 
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher_1" pkg="robot_state_publisher" type="robot_state_publisher"
-	respawn="false" output="screen">
+	respawn="false" output="log">
     <remap from="/joint_states" to="$(arg nmspace)/joint_states" />
   </node>
 
