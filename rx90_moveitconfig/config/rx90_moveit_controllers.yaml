@@ -3,8 +3,6 @@ controller_list:
     action_ns:  follow_joint_trajectory
     type:  FollowJointTrajectory
     joints:
-      - RX90_BARREL_JOINT
-      - RX90_BASE_JOINT
       - RX90_SHOULDER_JOINT
       - RX90_ARM_JOINT
       - RX90_ELBOW_JOINT
