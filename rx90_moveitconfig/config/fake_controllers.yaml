@@ -7,6 +7,8 @@ controller_list:
       - RX90_FOREARM_JOINT
       - RX90_WRIST_JOINT
       - RX90_FLANGE_JOINT
+  - name: fake_hand_controller
+    joints:
       - RX90_LGRIPPER_JOINT
       - RX90_MGRIPPER_JOINT
       - RX90_RGRIPPER_JOINT

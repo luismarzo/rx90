@@ -1,6 +1,6 @@
 <package>
 
-  <name>rx90_moveit_config</name>
+  <name>rx90_moveitconfig</name>
   <version>0.3.0</version>
   <description>
      An automatically generated package with all the configuration and launch files for using the rx90 with the MoveIt! Motion Planning Framework
