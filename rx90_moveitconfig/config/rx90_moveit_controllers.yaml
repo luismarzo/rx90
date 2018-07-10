@@ -1,0 +1,20 @@
+controller_list:
+  - name: arm_controller
+    action_ns:  follow_joint_trajectory
+    type:  FollowJointTrajectory
+    joints:
+      - RX90_BARREL_JOINT
+      - RX90_BASE_JOINT
+      - RX90_SHOULDER_JOINT
+      - RX90_ARM_JOINT
+      - RX90_ELBOW_JOINT
+      - RX90_FOREARM_JOINT
+      - RX90_WRIST_JOINT
+      - RX90_FLANGE_JOINT
+  - name: hand_controller
+    action_ns:  follow_joint_trajectory
+    type:  FollowJointTrajectory
+    joints:
+      - RX90_LGRIPPER_JOINT
+      - RX90_RGRIPPER_JOINT
+      - RX90_MGRIPPER_JOINT
