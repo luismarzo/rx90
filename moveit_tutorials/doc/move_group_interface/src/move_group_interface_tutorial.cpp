@@ -42,7 +42,7 @@
 
 #include <moveit_msgs/AttachedCollisionObject.h>
 #include <moveit_msgs/CollisionObject.h>
-
+#include <tf/transform_datatypes.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 int main(int argc, char** argv)
@@ -108,11 +108,13 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-float x,y,z,w;
+float x,y,z,rotx,roty,rotz;
 char continuee='y';
 geometry_msgs::Pose target_pose1;
 moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+tf::Quaternion q;
+
 
 while(continuee=='y'){
   printf("\033[01;33m");
@@ -123,22 +125,32 @@ while(continuee=='y'){
   std::cin>>y;
   printf("\nz:");
   std::cin>>z;
-  printf("\nw:");
-  std::cin>>w;
+  printf("\nrotx:");
+  std::cin>>rotx;
+  printf("\nroty:");
+  std::cin>>roty;
+  printf("\nrotz:");
+  std::cin>>rotz;
   printf("\033[01;33m");
 
-  
+  q.setEulerZYX(rotz,roty,rotx);
+
   if(z<0.1){
   printf("\033[1;31m");
   printf("\n[ERROR]: Variable 'z' must be mayor than 0.1");
   printf("\033[1;31m");
   }
   else{
-  target_pose1.orientation.w = w;
+  target_pose1.orientation.w = q.w();
   target_pose1.position.x = x;
   target_pose1.position.y = y;
   target_pose1.position.z = z;
+  target_pose1.orientation.x = q.x();
+  target_pose1.orientation.y = q.y();
+  target_pose1.orientation.z = q.z();
   move_group.setPoseTarget(target_pose1);
+  move_group.move();
+  //move_group.setRPYTarget(xx,yy,zz);
   success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
@@ -151,6 +163,7 @@ while(continuee=='y'){
   printf("\nContinue?[y/n]:");
   printf("\033[01;33m");
   std::cin>>continuee;
+  
 
 }
 
@@ -174,7 +187,7 @@ while(continuee=='y'){
   // and report success on execution of a trajectory.
 
   /* Uncomment below line when working with a real robot */
-  /* move_group.move() */
+  // move_group.move() ;
 
   // Planning to a joint-space goal
   // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
