@@ -108,34 +108,58 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-  // Planning to a Pose goal
-  // ^^^^^^^^^^^^^^^^^^^^^^^
-  // We can plan a motion for this group to a desired pose for the
-  // end-effector.
-  geometry_msgs::Pose target_pose1;
-  target_pose1.orientation.w = 1.0;
-  target_pose1.position.x = 0.4;
-  target_pose1.position.y = 0.4;
-  target_pose1.position.z = 1;
+float x,y,z,w;
+char continuee='y';
+geometry_msgs::Pose target_pose1;
+moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
+while(continuee=='y'){
+  printf("\033[01;33m");
+  printf("\nMoving to a pose. Enter the derired pose\n");
+  printf("\nx:");
+  std::cin>>x;
+  printf("\ny:");
+  std::cin>>y;
+  printf("\nz:");
+  std::cin>>z;
+  printf("\nw:");
+  std::cin>>w;
+  printf("\033[01;33m");
+
+  
+  if(z<0.1){
+  printf("\033[1;31m");
+  printf("\n[ERROR]: Variable 'z' must be mayor than 0.1");
+  printf("\033[1;31m");
+  }
+  else{
+  target_pose1.orientation.w = w;
+  target_pose1.position.x = x;
+  target_pose1.position.y = y;
+  target_pose1.position.z = z;
   move_group.setPoseTarget(target_pose1);
-
-  // Now, we call the planner to compute the plan and visualize it.
-  // Note that we are just planning, not asking move_group
-  // to actually move the robot.
-  moveit::planning_interface::MoveGroupInterface::Plan my_plan;
-
-  bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-
+  success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
-
-  // Visualizing plans
-  // ^^^^^^^^^^^^^^^^^
-  // We can also visualize the plan as a line with markers in RViz.
   ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
   visual_tools.publishAxisLabeled(target_pose1, "pose1");
   visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
   visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
   visual_tools.trigger();
+  }
+  printf("\033[01;33m");
+  printf("\nContinue?[y/n]:");
+  printf("\033[01;33m");
+  std::cin>>continuee;
+
+}
+
+  return 0;
+
+
+
+
+
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to continue the demo");
 
   // Moving to a pose goal

@@ -22,7 +22,7 @@
 
 
      <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90.xacro'"  />
+    command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90_floor.xacro'"  />
 
 
 

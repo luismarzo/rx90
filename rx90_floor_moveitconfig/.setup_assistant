@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: rx90_description
+    relative_path: urdf/rx90_floor.xacro
+  SRDF:
+    relative_path: config/rx90.srdf
+  CONFIG:
+    author_name: Luis Marzo
+    author_email: luismarzor@gmail.com
+    generated_timestamp: 1531389516

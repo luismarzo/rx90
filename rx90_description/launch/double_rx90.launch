@@ -20,9 +20,9 @@
   </include>
 
   
-    <node name="Serial_test" pkg="rx90_serial" type="rx90_serial_test"  output="screen"/>
+    <!--node name="Serial_test" pkg="rx90_serial" type="rx90_serial_test"  output="screen"/-->
 
-     <param name="robot_description"    command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90.xacro'"  />
+     <param name="robot_description"    command="$(find xacro)/xacro --inorder '$(find rx90_description)/urdf/rx90_floor.xacro'"  />
 
    <param name="tf_prefix" value="rx90_1" />
 
@@ -34,6 +34,7 @@
       <arg name="pos_y" value="0.0"/>
       <arg name="namespace_arg" value="rx90_1"/>
     </include>
+    <!--include file="$(find rx90_moveitconfig)/launch/rx90_execution.launch"/-->
 </group>
 
 
