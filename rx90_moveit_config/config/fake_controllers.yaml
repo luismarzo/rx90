@@ -1,0 +1,14 @@
+controller_list:
+  - name: fake_rx90_arm_controller
+    joints:
+      - RX90_SHOULDER_JOINT
+      - RX90_ARM_JOINT
+      - RX90_ELBOW_JOINT
+      - RX90_FOREARM_JOINT
+      - RX90_WRIST_JOINT
+      - RX90_FLANGE_JOINT
+  - name: fake_rx90_hand_controller
+    joints:
+      - RX90_LGRIPPER_JOINT
+      - RX90_MGRIPPER_JOINT
+      - RX90_RGRIPPER_JOINT
