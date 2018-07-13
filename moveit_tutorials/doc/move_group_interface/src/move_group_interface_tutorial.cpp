@@ -45,6 +45,8 @@
 #include <tf/transform_datatypes.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+#define pi 3.14159265359
+
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "move_group_interface");
@@ -108,17 +110,23 @@ int main(int argc, char** argv)
   // ^^^^^^^^^^^^^^^^^^^^^^^^^
   visual_tools.prompt("Press 'next' in the RvizVisualToolsGui window to start the demo");
 
-float x,y,z,rotx,roty,rotz;
+//z minimo real=270mm-370
+//eje x e y cambiados
+//al y le pones signo contrario
+
+
+float x,y,z,rotx,roty,rotz,aux;
 char continuee='y';
 geometry_msgs::Pose target_pose1;
 moveit::planning_interface::MoveGroupInterface::Plan my_plan;
 bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
 tf::Quaternion q;
+ 
 
 
 while(continuee=='y'){
   printf("\033[01;33m");
-  printf("\nMoving to a pose. Enter the derired pose\n");
+  printf("\nMoving to a pose. Enter the desired pose (milimeters and degrees)\n");
   printf("\nx:");
   std::cin>>x;
   printf("\ny:");
@@ -132,6 +140,22 @@ while(continuee=='y'){
   printf("\nrotz:");
   std::cin>>rotz;
   printf("\033[01;33m");
+
+//cambio de coordenadas para el real
+z=z+370;
+aux=x;
+x=y;
+y=aux;
+x=(-1)*x;
+
+x=x/1000;
+y=y/1000;
+z=z/1000;
+
+  //changing into radians
+  rotx=rotx*2*pi/360;
+  roty=roty*2*pi/360;
+  rotz=rotz*2*pi/360;
 
   q.setEulerZYX(rotz,roty,rotx);
 
