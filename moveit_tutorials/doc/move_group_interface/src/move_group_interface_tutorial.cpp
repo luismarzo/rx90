@@ -161,7 +161,7 @@ z=z/1000;
 
   if(z<0.1){
   printf("\033[1;31m");
-  printf("\n[ERROR]: Variable 'z' must be mayor than 0.1");
+  printf("\n[ERROR]: Variable 'z' must be mayor than 100");
   printf("\033[1;31m");
   }
   else{

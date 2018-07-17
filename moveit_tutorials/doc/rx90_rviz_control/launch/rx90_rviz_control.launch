@@ -1,0 +1,6 @@
+<launch>
+
+  <node name="rx90_rviz_control" pkg="moveit_tutorials" type="rx90_rviz_control" respawn="false" output="screen">
+  </node>
+
+</launch>

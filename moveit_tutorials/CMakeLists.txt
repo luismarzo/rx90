@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(moveit_tutorials)
 
 add_compile_options(-std=c++11)
-
+add_definitions(-lpthread)
 find_package(Eigen3 REQUIRED)
 
 # Eigen 3.2 (Wily) only provides EIGEN3_INCLUDE_DIR, not EIGEN3_INCLUDE_DIRS
@@ -12,6 +12,11 @@ endif()
 
 find_package(catkin REQUIRED
   COMPONENTS
+    roscpp
+    rospy
+    std_msgs
+    genmsg
+    gazebo_msgs
     moveit_core
     moveit_visual_tools
     moveit_ros_planning
@@ -61,3 +66,4 @@ add_subdirectory(doc/move_group_python_interface)
 add_subdirectory(doc/state_display)
 add_subdirectory(doc/interactivity)
 add_subdirectory(doc/pick_place)
+add_subdirectory(doc/rx90_rviz_control)
