@@ -7,7 +7,7 @@
 #include "std_msgs/Duration.h"
 #include "std_msgs/Time.h"
 
-
+#define pi 3.14159265359
 
 
 int main(int argc, char **argv)
@@ -57,33 +57,46 @@ int main(int argc, char **argv)
 
   ros::Rate loop_rate(10);
 
-      char x_p,y_p,z_p,r_p,p_p,w_p;
-      ROS_INFO("READY! give me a position (x,y,z,roll,pitch,yaw)");
-	  ROS_INFO("\nx:");
-	  std::cin>>x_p;
-	  ROS_INFO("\ny:");
-	  std::cin>>y_p;
-	  ROS_INFO("\nz:");
-	  std::cin>>z_p;
-	  ROS_INFO("\nroll:");
-	  std::cin>>r_p;
-	  ROS_INFO("\npitch:");
-	  std::cin>>p_p;
-	  ROS_INFO("\nyaw:");
-	  std::cin>>w_p;
+      float j1,j2,j3,j4,j5,j6;
+      ROS_INFO("READY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)");
+	  ROS_INFO("\nj1:");
+	  std::cin>>j1;
+	  ROS_INFO("\nj2:");
+	  std::cin>>j2;
+	  ROS_INFO("\nj3:");
+	  std::cin>>j3;
+	  ROS_INFO("\nj4:");
+	  std::cin>>j4;
+	  ROS_INFO("\nj5:");
+	  std::cin>>j5;
+	  ROS_INFO("\nj6:");
+	  std::cin>>j6;
 	 
-	 msg.data=x_p;
-	 pub_shoulder_1.publish(msg);
-	 msg.data=y_p;
-	 pub_arm_1.publish(msg);
-	 msg.data=z_p;
-	 pub_elbow_1.publish(msg);
-	 msg.data=r_p;
-	 pub_forearm_1.publish(msg);
-	 msg.data=p_p;
-	 pub_wrist_1.publish(msg);
-	 msg.data=w_p;
-	 pub_flange_1.publish(msg);
+	  //Changing to radians and changing the sign  Lo cambio aquí porque es peor cambiar el urdf
+	  j1=j1*2*pi/360;
+	  j1=j1* (-1);
+	  j2=j2+90;
+	  j2=j2*2*pi/360;
+	  j3=j3-90;
+	  j3=j3*2*pi/360;
+	  j4=j4*2*pi/360;
+	  j5=j5*2*pi/360;
+	  j6=j6*2*pi/360;
+
+
+
+	 msg.data=j1;
+	 pub_shoulder_2.publish(msg);
+	 msg.data=j2;
+	 pub_arm_2.publish(msg);
+	 msg.data=j3;
+	 pub_elbow_2.publish(msg);
+	 msg.data=j4;
+	 pub_forearm_2.publish(msg);
+	 msg.data=j5;
+	 pub_wrist_2.publish(msg);
+	 msg.data=j6;
+	 pub_flange_2.publish(msg);
 
 
 

@@ -1,6 +1,6 @@
 CC = g++
 FLAGS = -g -I/usr/local/include/
-LIBS = -L/usr/local/lib/ -lserial -lpthread
+LIBS = -L/usr/lib/x86_64-linux-gnu -lserial -lpthread
 OBJECTS = Rx90.o
 
 all: test $(OBJECTS)

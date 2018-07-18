@@ -7,39 +7,40 @@ project(rx90_serial)
 
 add_definitions(-lpthread)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  genmsg
+  gazebo_msgs
 )
 find_package(Threads REQUIRED)
+generate_messages(DEPENDENCIES std_msgs gazebo_msgs)
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rx90_serial
-#  CATKIN_DEPENDS roscpp rospy std_msgs
-#  DEPENDS system_lib
+
 )
 
-###########
-## Build ##
-###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
+   ${catkin_INCLUDE_DIRS}
 )
+
+
+file(GLOB_RECURSE SRC_FILES "src/*.cpp" "include/*.h" "include/*.inl" )
+
+
+
+find_package(gazebo REQUIRED)
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
+
+find_package(gazebo REQUIRED)
 
 # Collect all sources
-file(GLOB_RECURSE SRC_FILES "src/*.cpp" "include/*.h" "include/*.inl" )
+
 
 # Add Executable
 #add_executable(${PROJECT_NAME} ${SRC_FILES})
@@ -50,7 +51,11 @@ file(GLOB_RECURSE SRC_FILES "src/*.cpp" "include/*.h" "include/*.inl" )
 
 add_executable(rx90_serial_test ${SRC_FILES})
 include_directories(PUBLIC ${PROJECT_SOURCE_DIR}/src ${PROJECT_SOURCE_DIR}/include)
+
 target_link_libraries(rx90_serial_test pthread serial)
+target_link_libraries(rx90_serial_test ${catkin_LIBRARIES})
 target_link_libraries(rx90_serial_test ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(rx90_serial_test ${GAZEBO_LIBRARIES})
+add_dependencies(rx90_serial_test rx90_serial_generate_messages_cpp)
 
 

@@ -3,7 +3,7 @@
 int main( int argc, char** argv ) {
 
 	// Rx90
-	Rx90 rx90("/dev/ttyUSB0", "122,-77,-19,55,45,-43");  //Posicion buena
+	Rx90 rx90("/dev/ttyUSB0", "122,-77,-19,55,45,-43");  //Posicion buena list /dev/
 
 	  
   char key;

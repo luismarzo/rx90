@@ -46,7 +46,7 @@ void Rx90::init(const std::string &serialPort, const std::string &originPoint)
 	std::cout<<originPoint.c_str()<<std::endl;
 	sendCommand(command_origin.str());
 
-	sendCommand("SPEED 20"); 
+	sendCommand("SPEED 10"); 
 	sendCommand("DO ABOVE");
 	sendCommand("DO MOVE #ORIGIN");
 	sendCommand("HERE ORIGIN", true);
@@ -143,10 +143,10 @@ void Rx90::move(const Action &action)
 	if (action != POSITION)
 	{
 		std::stringstream sstr;
-		sstr << "DO SET P" << "=SHIFT(ORIGIN BY " << (int)x << "," << (int)y << ",0)";
+		sstr << "DO SET P" << "=SHIFT(POSE BY " << (int)x << "," << (int)y << ",0)";
 		std::string command = sstr.str();
 		sendCommand(command);
-		sendCommand("SPEED 20");
+		sendCommand("SPEED 10");
 		sendCommand("DO MOVES P");
 	}
 	else
@@ -161,7 +161,7 @@ void Rx90::move_position(const std::string &PPoint)
 	std::stringstream command_pose;
 	command_pose << "DO SET #POSE=#PPOINT(" << PPoint.c_str() << ")";
 	sendCommand(command_pose.str());
-	sendCommand("SPEED 20");
+	sendCommand("SPEED 10");
 	sendCommand("DO ABOVE");
 	sendCommand("DO MOVE #POSE");
 }

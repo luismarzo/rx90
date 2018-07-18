@@ -13,6 +13,8 @@
 #include <cmath>
 #include <stdexcept>
 
+
+
 #define DELTA_VH 25
 #define DELTA_DIAG (0.707 * DELTA_VH)
 #define END "\r\n"
@@ -41,12 +43,13 @@ void Rx90::init(const std::string &serialPort, const std::string &originPoint)
 	serial.unsetf(std::ios_base::skipws);
 
 	// Set origin precision point
-	std::stringstream command_origin;
+	std::stringstream command_pose,command_origin;
 	command_origin << "DO SET #ORIGIN=#PPOINT(" << originPoint.c_str() << ")";
+	command_pose << "DO SET #POSE=#PPOINT(" << originPoint.c_str() << ")";
 	std::cout<<originPoint.c_str()<<std::endl;
 	sendCommand(command_origin.str());
-
-	sendCommand("SPEED 20"); 
+	sendCommand(command_pose.str());
+	sendCommand("SPEED 10"); 
 	sendCommand("DO ABOVE");
 	sendCommand("DO MOVE #ORIGIN");
 	sendCommand("HERE ORIGIN", true);
@@ -143,10 +146,10 @@ void Rx90::move(const Action &action)
 	if (action != POSITION)
 	{
 		std::stringstream sstr;
-		sstr << "DO SET P" << "=SHIFT(ORIGIN BY " << (int)x << "," << (int)y << ",0)";
+		sstr << "DO SET P" << "=SHIFT(POSE BY " << (int)x << "," << (int)y << ",0)";
 		std::string command = sstr.str();
 		sendCommand(command);
-		sendCommand("SPEED 20");
+		sendCommand("SPEED 10");
 		sendCommand("DO MOVES P");
 	}
 	else
@@ -161,7 +164,7 @@ void Rx90::move_position(const std::string &PPoint)
 	std::stringstream command_pose;
 	command_pose << "DO SET #POSE=#PPOINT(" << PPoint.c_str() << ")";
 	sendCommand(command_pose.str());
-	sendCommand("SPEED 20");
+	sendCommand("SPEED 10");
 	sendCommand("DO ABOVE");
 	sendCommand("DO MOVE #POSE");
 }

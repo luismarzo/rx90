@@ -28,11 +28,11 @@ int main(int argc, char **argv)
    ros::AsyncSpinner spinner(1);
    spinner.start();
 
-    sleep(16);
+    sleep(15);
 	printf("\n");
     printf("//////////////////////////////////////////////////\n");
     printf("\n");
-    printf("            RX 90 SIMULATION AND CONTROL          \n");
+    printf("            RX90 SIMULATION AND CONTROL          \n");
     printf("\n");
     printf("\n");
     printf("                       GRVC                       \n");
@@ -41,7 +41,8 @@ int main(int argc, char **argv)
 
 
 	// Rx90
-	Rx90 rx90("/dev/ttyUSB0", "122,-77,-19,55,45,-43"); //Posicion buena
+	Rx90 rx90("/dev/ttyUSB0", "122,-77,-19,55,45,-43"); //Posicion de joints en grados
+	//en radianes la posición se te queda comoo 
 	char key;
 
 	bool play = true;

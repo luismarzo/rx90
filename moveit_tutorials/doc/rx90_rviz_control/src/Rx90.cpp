@@ -58,13 +58,13 @@ void Rx90::init(const std::string &serialPort, const std::string &originPoint)
 	serial.unsetf(std::ios_base::skipws);
 
 	// Set origin precision point
-	std::stringstream command_origin;
+	std::stringstream command_origin, command_pose;
 	command_origin << "DO SET #ORIGIN=#PPOINT(" << originPoint.c_str() << ")";
-	command_origin << "DO SET #POSE=#PPOINT(" << originPoint.c_str() << ")";
+	command_pose << "DO SET #POSE=#PPOINT(" << originPoint.c_str() << ")";
 	std::cout<<originPoint.c_str()<<std::endl;
 	sendCommand(command_origin.str());
-
-	sendCommand("SPEED 20"); 
+	sendCommand(command_pose.str());
+	sendCommand("SPEED 10"); 
 	sendCommand("DO ABOVE");
 	sendCommand("DO MOVE #ORIGIN");
 	sendCommand("HERE ORIGIN", true);
@@ -165,7 +165,7 @@ void Rx90::move(const Action &action)
 		sstr << "DO SET P" << "=SHIFT(POSE BY " << (int)x << "," << (int)y << ",0)";
 		std::string command = sstr.str();
 		sendCommand(command);
-		sendCommand("SPEED 20");
+		sendCommand("SPEED 10");
 		sendCommand("DO MOVES P");
 	}
 	else
@@ -180,7 +180,7 @@ void Rx90::move_position(const std::string &PPoint)
 	std::stringstream command_pose;
 	command_pose << "DO SET #POSE=#PPOINT(" << PPoint.c_str() << ")";
 	sendCommand(command_pose.str());
-	sendCommand("SPEED 20");
+	sendCommand("SPEED 10");
 	sendCommand("DO ABOVE");
 	sendCommand("DO MOVE #POSE");
 }
@@ -234,10 +234,7 @@ void Rx90::printAction(const Action &action)
 
 void Rx90::rviz(){
 
-//   ros::init(argc, argv, "rx90_rviz_control");
-//   ros::NodeHandle node_handle;
-//   ros::AsyncSpinner spinner(1);
-//   spinner.start();
+
 
   static const std::string PLANNING_GROUP = "rx90_arm";
 
@@ -305,7 +302,28 @@ void Rx90::rviz(){
 	stg_w =static_cast<std::ostringstream*>(&(std::ostringstream() << rotz))->str();
 
     // cambio de coordenadas para el real
-    z = z + 370;
+
+	//y maxima 970, en simulacion 1080
+	//z max 970, minimo es -284. en simulacon la minima es 100 y maxima 1500. punto intermedio 500
+	//x max 970
+
+	//y=180 mira hacia abajo, 0 hacia arriba y 90 recto.
+
+
+	//posiciones que se le van a enviiar -89.57,-393.16,580.48,-167.73,73.76,-103.63
+	//-406.54,-273.28,847.70,-147.53,35.53,-147.83
+	//calibrar el robot es en putty:
+	//.cal
+	//.do ready
+
+	//65.67,-355.19,k617.37,-145.87,53.40,-117.86
+	y=y*1080/970;
+	x=x*1080/970;
+	z=z+284;
+    z=z*1350/1254;
+	z=z+100;
+	
+    
     aux = x;
     x = y;
     y = aux;
@@ -314,6 +332,9 @@ void Rx90::rviz(){
     x = x / 1000;
     y = y / 1000;
     z = z / 1000;
+
+	rotz=rotz+90;
+	roty=roty-90;
 
     // changing into radians
     rotx = rotx * 2 * pi / 360;
@@ -348,16 +369,19 @@ void Rx90::rviz(){
       visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
       visual_tools.trigger();
 
-	  printf("\033[01;33m");
-      printf("\nSend position ro real Rx90?:[y/n]");
-      printf("\033[01;33m");
+	  //printf("\033[01;33m");
+      printf("\nSend position to real Rx90?:[y/n]");
+      //printf("\033[01;33m");
+
 	  std::cin>>send_position;
 
 	  if(send_position=='y')
 	  {
-		Point=stg_x+","+stg_y+","+stg_z+","+stg_r+","+stg_p+","+stg_w;
-		std::cout<< Point<<std::endl;
-		//move_position(Point);   Antes de enviar nada debes de comprobar el roll pitch yaw reales
+
+		  //Esto esta mal, debes mandarle joints no posicion x,y, z
+		//Point=stg_x+","+stg_y+","+stg_z+","+stg_r+","+stg_p+","+stg_w;
+		//std::cout<< Point<<std::endl;
+		//move_position(Point);  // Antes de enviar nada debes de comprobar el roll pitch yaw reales
 	  }
 
 

@@ -23,7 +23,7 @@
 
     <link name="RX90_BASE">
        <visual>
-	<origin rpy="${pi/2} 0 0" xyz="0 0 0" />
+	<origin rpy="${pi/2} 0 ${pi/2}" xyz="0 0 0" />
           <geometry>
              <mesh filename="package://rx90_description/meshes/stl/RX-90_BASE.stl" scale="0.001 0.001 0.001" />
           </geometry>
@@ -36,11 +36,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-       <mass value="1"/>
+       <mass value="0.1"/>
           <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_BASE_JOINT" type="fixed">
@@ -64,11 +64,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-      <mass value="1"/>
+      <mass value="0.1"/>
       <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_SHOULDER_JOINT" type="revolute">
@@ -93,11 +93,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <mass value="1"/>
+        <mass value="0.1"/>
   <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_ARM_JOINT" type="revolute">
@@ -122,11 +122,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-  <mass value="1"/>
+  <mass value="0.1"/>
         <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_ELBOW_JOINT" type="revolute">
@@ -152,15 +152,15 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-        <mass value="1"/>
+        <mass value="0.1"/>
           <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_FOREARM_JOINT" type="revolute">
-    <limit effort="10000" lower="-4.712" upper="4.712" velocity="6.9987"/>
+    <limit effort="10000" lower="-3.14" upper="3.14" velocity="6.9987"/>
        <parent link="RX90_ELBOW" />
        <child link="RX90_FOREARM" />
        <origin rpy="0 0 ${-pi/2}" xyz="0 0 0" />
@@ -181,11 +181,11 @@
        </collision>
        <selfCollide>true</selfCollide>
 	<inertial>
-       <mass value="1"/>
+       <mass value="0.1"/>
          <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_WRIST_JOINT" type="revolute">
@@ -211,11 +211,11 @@
        <selfCollide>true</selfCollide>
 	<inertial>
          <origin xyz="0 0 0" rpy="0 0 0" />
-         <mass value="1"/>
+         <mass value="0.1"/>
         <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_FLANGE_JOINT" type="revolute">
@@ -242,11 +242,11 @@
        <selfCollide>true</selfCollide>
 	<inertial>
        
-        <mass value="1" />
+        <mass value="0.1" />
   <origin xyz="0.0 0.00 0.0" rpy="0.0 0.0 0.0"/>
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     </inertial>
     </link>
     <joint name="RX90_LGRIPPER_JOINT" type="prismatic">
@@ -272,11 +272,11 @@
        <selfCollide>true</selfCollide>
 	<inertial>
        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
+        <mass value="0.1" />
   
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     
     </inertial>
     </link>
@@ -304,11 +304,11 @@
        <selfCollide>true</selfCollide>
 	<inertial>
        <origin xyz="0 0 0" rpy="0 0 0" />
-        <mass value="1" />
+        <mass value="0.1" />
    
-          <inertia ixx="1"  ixy="1"  ixz="1"
-                   iyx="1"  iyy="1"  iyz="1"
-                   izx="1"  izy="1"  izz="1"/>
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
     
     </inertial>
     </link>

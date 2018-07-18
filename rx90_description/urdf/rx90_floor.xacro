@@ -13,8 +13,7 @@
     
 
 
-  <link name="world"/>
-<!--link name="base_link"/-->
+<link name="base_link"/>
 <!--BRAZOOOOOOOOOOOOOOOOOOOO-->
 
 
@@ -44,7 +43,7 @@
     </inertial>
     </link>
     <joint name="RX90_BASE_JOINT" type="fixed">
-       <parent link="world" />
+       <parent link="base_link" />
        <child link="RX90_BASE" />
        <origin rpy="0 0 0" xyz="0 0 0.083" />
     </joint>
