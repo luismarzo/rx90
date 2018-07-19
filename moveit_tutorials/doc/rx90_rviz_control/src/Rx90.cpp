@@ -268,7 +268,7 @@ void Rx90::rviz()
 
   float x, y, z, rotx, roty, rotz, aux;
   char send_position = 'y';
-  //std::string stg_x, stg_y, stg_z, stg_r, stg_p, stg_w;
+  // std::string stg_x, stg_y, stg_z, stg_r, stg_p, stg_w;
 
   std::string Point;
   geometry_msgs::Pose target_pose1;
@@ -293,12 +293,12 @@ void Rx90::rviz()
   printf("\033[01;33m");
 
   // antes del cambio de coordenadas guardamos variables por si hay que enviarlas
-  //stg_x = static_cast<std::ostringstream*>(&(std::ostringstream() << x))->str();
-  //stg_y = static_cast<std::ostringstream*>(&(std::ostringstream() << y))->str();
-  //stg_z = static_cast<std::ostringstream*>(&(std::ostringstream() << z))->str();
-  //stg_r = static_cast<std::ostringstream*>(&(std::ostringstream() << rotx))->str();
-  //stg_p = static_cast<std::ostringstream*>(&(std::ostringstream() << roty))->str();
-  //stg_w = static_cast<std::ostringstream*>(&(std::ostringstream() << rotz))->str();
+  // stg_x = static_cast<std::ostringstream*>(&(std::ostringstream() << x))->str();
+  // stg_y = static_cast<std::ostringstream*>(&(std::ostringstream() << y))->str();
+  // stg_z = static_cast<std::ostringstream*>(&(std::ostringstream() << z))->str();
+  // stg_r = static_cast<std::ostringstream*>(&(std::ostringstream() << rotx))->str();
+  // stg_p = static_cast<std::ostringstream*>(&(std::ostringstream() << roty))->str();
+  // stg_w = static_cast<std::ostringstream*>(&(std::ostringstream() << rotz))->str();
 
   // cambio de coordenadas para el real
 
@@ -379,27 +379,31 @@ void Rx90::rviz()
       std::vector<double> joint_group_positions;
       current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
-	  //Aquí podría mandar las coordenadas a gazebo para visualizarlo
+      // Aquí podría mandar las coordenadas a gazebo para visualizarlo
 
-	  //Cambio de coordenadas de gazebo a robot real para enviarselas al rx90
-	  // joint_group_positions[0]=;
-	  // joint_group_positions[1]=;
-	  // joint_group_positions[2]=;
-	  // joint_group_positions[3]=;
-	  // joint_group_positions[4]=;
-	  // joint_group_positions[5]=;
+      
+      // Cambio de coordenadas de gazebo a robot real para enviarselas al rx90
+      joint_group_positions[0]=joint_group_positions[0]*360/(2*pi)*(-1);
+      joint_group_positions[1]=joint_group_positions[1]*360/(2*pi);
+      joint_group_positions[1]=joint_group_positions[1]-90;
+      joint_group_positions[2]=joint_group_positions[2]*360/(2*pi);
+      joint_group_positions[2]=joint_group_positions[2]+90;
+      joint_group_positions[3]=joint_group_positions[3]*360/(2*pi);
+      joint_group_positions[4]=joint_group_positions[4]*360/(2*pi);
+      joint_group_positions[5]=joint_group_positions[5]*360/(2*pi);
+      
+      // cambio a string
+      std::string jnt_1,jnt_2,jnt_3,jnt_4,jnt_5,jnt_6;
 
-	  //cambio a string
+         jnt_1 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[0]))->str(); 
+         jnt_2 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[1]))->str();
+         jnt_3 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[2]))->str(); 
+         jnt_4 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[3]))->str();
+         jnt_5 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[4]))->str(); 
+         jnt_6 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[5]))->str();
 
-	  // joint_group_positions[0] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[0]))->str();
-	  // joint_group_positions[1] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[1]))->str();
-	  // joint_group_positions[2] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[2]))->str();
-	  // joint_group_positions[3] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[3]))->str();
-	  // joint_group_positions[4] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[4]))->str();
-	  // joint_group_positions[5] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[5]))->str();
-	  
-      //  Point=joint_group_positions[0]+","+joint_group_positions[1]+","+joint_group_positions[2]+","+joint_group_positions[3]+","+joint_group_positions[4]+","+joint_group_positions[5];
-      //  std::cout<< Point<<std::endl;
+       Point=jnt_1+","+jnt_2+","+jnt_3+","+jnt_4+","+jnt_5+","+jnt_6;
+       std::cout<< Point<<std::endl;
       //  move_position(Point);  // Antes de enviar nada debes de comprobar el roll pitch yaw reales
     }
   }

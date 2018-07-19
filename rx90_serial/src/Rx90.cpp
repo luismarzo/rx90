@@ -138,10 +138,7 @@ void Rx90::move(const Action &action)
 		break;
 	case POSITION:
 		gazebo();
-		// std::cout << "\n Give me the joints Example:122,-77,-19,55,45,-43" << std::endl;
-		// std::cin >> Point;
-		// std::cout << Point << std::endl;
-		// move_position(Point);
+
 		break;
 	default:
 		std::cout << "unexpected!";
