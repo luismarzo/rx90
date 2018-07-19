@@ -28,7 +28,7 @@ int main(int argc, char **argv)
    ros::AsyncSpinner spinner(1);
    spinner.start();
 
-    sleep(15);
+    sleep(20);
 	printf("\n");
     printf("//////////////////////////////////////////////////\n");
     printf("\n");

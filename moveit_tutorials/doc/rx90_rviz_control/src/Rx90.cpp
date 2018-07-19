@@ -12,6 +12,9 @@
 #include <sstream>
 #include <cmath>
 #include <stdexcept>
+#include "std_msgs/Float64.h"
+#include "gazebo_msgs/ApplyJointEffort.h"
+#include "ros/ros.h"
 
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
@@ -111,6 +114,7 @@ void Rx90::panic()
 void Rx90::move(const Action& action)
 {
   std::string Point;
+  char pos;
 
   switch (action)
   {
@@ -148,11 +152,22 @@ void Rx90::move(const Action& action)
       catchIt();
       break;
     case POSITION:
-      rviz();
-      // std::cout << "\n Give me a position Example:122,-77,-19,55,45,-43" << std::endl;
-      // std::cin >> Point;
-      // std::cout << Point << std::endl;
-      // move_position(Point);
+      std::cout<<" Do you want to introduce the position or the joints?[p/j]:"<<std::endl;
+      std::cin>>pos;
+      if(pos=='p'){
+          rviz();
+      }
+
+      else if(pos=='j')
+      {
+          gazebo(0,-90,90,0,0,0,'n');
+      }
+      
+      else
+      {
+        std::cout<<"Wrong character"<<std::endl;
+      }
+
       break;
     default:
       std::cout << "unexpected!";
@@ -292,13 +307,6 @@ void Rx90::rviz()
   std::cin >> rotz;
   printf("\033[01;33m");
 
-  // antes del cambio de coordenadas guardamos variables por si hay que enviarlas
-  // stg_x = static_cast<std::ostringstream*>(&(std::ostringstream() << x))->str();
-  // stg_y = static_cast<std::ostringstream*>(&(std::ostringstream() << y))->str();
-  // stg_z = static_cast<std::ostringstream*>(&(std::ostringstream() << z))->str();
-  // stg_r = static_cast<std::ostringstream*>(&(std::ostringstream() << rotx))->str();
-  // stg_p = static_cast<std::ostringstream*>(&(std::ostringstream() << roty))->str();
-  // stg_w = static_cast<std::ostringstream*>(&(std::ostringstream() << rotz))->str();
 
   // cambio de coordenadas para el real
 
@@ -366,10 +374,8 @@ void Rx90::rviz()
     visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
     visual_tools.trigger();
 
-    // printf("\033[01;33m");
-    printf("\nSend position to real Rx90?:[y/n]");
-    // printf("\033[01;33m");
-
+    
+    printf("\nSend position to Gazebo?:[y/n]");
     std::cin >> send_position;
 
     if (send_position == 'y')
@@ -379,32 +385,140 @@ void Rx90::rviz()
       std::vector<double> joint_group_positions;
       current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
 
-      // Aquí podría mandar las coordenadas a gazebo para visualizarlo
 
-      
+
+      float j1,j2,j3,j4,j5,j6;
       // Cambio de coordenadas de gazebo a robot real para enviarselas al rx90
-      joint_group_positions[0]=joint_group_positions[0]*360/(2*pi)*(-1);
-      joint_group_positions[1]=joint_group_positions[1]*360/(2*pi);
-      joint_group_positions[1]=joint_group_positions[1]-90;
-      joint_group_positions[2]=joint_group_positions[2]*360/(2*pi);
-      joint_group_positions[2]=joint_group_positions[2]+90;
-      joint_group_positions[3]=joint_group_positions[3]*360/(2*pi);
-      joint_group_positions[4]=joint_group_positions[4]*360/(2*pi);
-      joint_group_positions[5]=joint_group_positions[5]*360/(2*pi);
+      j1=joint_group_positions[0]*360/(2*pi)*(-1);
+      j2=joint_group_positions[1]*360/(2*pi);
+      j2=joint_group_positions[1]-90;
+      j3=joint_group_positions[2]*360/(2*pi);
+      j3=joint_group_positions[2]+90;
+      j4=joint_group_positions[3]*360/(2*pi);
+      j5=joint_group_positions[4]*360/(2*pi);
+      j6=joint_group_positions[5]*360/(2*pi);
       
-      // cambio a string
-      std::string jnt_1,jnt_2,jnt_3,jnt_4,jnt_5,jnt_6;
-
-         jnt_1 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[0]))->str(); 
-         jnt_2 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[1]))->str();
-         jnt_3 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[2]))->str(); 
-         jnt_4 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[3]))->str();
-         jnt_5 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[4]))->str(); 
-         jnt_6 = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[5]))->str();
-
-       Point=jnt_1+","+jnt_2+","+jnt_3+","+jnt_4+","+jnt_5+","+jnt_6;
-       std::cout<< Point<<std::endl;
-      //  move_position(Point);  // Antes de enviar nada debes de comprobar el roll pitch yaw reales
+      gazebo(j1,j2,j3,j4,j5,j6,'y');
     }
   }
+}
+
+
+void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _j6, char send){
+
+  std_msgs::Float64 msg;
+	msg.data = 0;
+	int end = 0;
+	int alert = 0;
+	float tiempo = 4;
+	ros::NodeHandle n;
+	char send_position='y';
+
+
+  ros::Publisher pub_shoulder_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_SHOULDER_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_arm_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_ARM_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_elbow_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_ELBOW_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_forearm_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_FOREARM_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_wrist_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_WRIST_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_flange_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_FLANGE_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_lgripper_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_LGRIPPER_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_rgripper_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_RGRIPPER_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_mgripper_1 = n.advertise<std_msgs::Float64>("/rx90_1/RX90_MGRIPPER_JOINT_position_controller/command", 1000);
+
+  ros::Publisher pub_shoulder_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_SHOULDER_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_arm_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_ARM_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_elbow_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_ELBOW_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_forearm_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_FOREARM_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_wrist_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_WRIST_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_flange_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_FLANGE_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_lgripper_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_LGRIPPER_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_rgripper_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_RGRIPPER_JOINT_position_controller/command", 1000);
+  ros::Publisher pub_mgripper_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_MGRIPPER_JOINT_position_controller/command", 1000);
+
+ros::Rate loop_rate(10);
+float j1,j2,j3,j4,j5,j6;
+
+  if(send=='n')  //Las posiciones de las joints no vienen de la función rviz
+  {
+      
+      printf("READY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)"); //Coordenadas del sistema de referencia del mando del Rx90
+	  printf("\nj1:");
+	  std::cin>>j1;
+	  printf("\nj2:");
+	  std::cin>>j2;
+	  printf("\nj3:");
+	  std::cin>>j3;
+	  printf("\nj4:");
+	  std::cin>>j4;
+	  printf("\nj5:");
+	  std::cin>>j5;
+	  printf("\nj6:");
+	  std::cin>>j6;
+  }
+  
+  else
+  {
+    j1=_j1;
+    j2=_j2;
+    j3=_j3;
+    j4=_j4;
+    j5=_j5;
+    j6=_j6;
+  }
+  
+		//Se hace antes para no pillar las transformaciones a Gazebo
+	  	std::string Joints;
+		std::string stg_j1,stg_j2,stg_j3,stg_j4,stg_j5,stg_j6;
+		stg_j1 =static_cast<std::ostringstream*>(&(std::ostringstream() << j1))->str();
+		stg_j2 =static_cast<std::ostringstream*>(&(std::ostringstream() << j2))->str();
+		stg_j3 =static_cast<std::ostringstream*>(&(std::ostringstream() << j3))->str();
+		stg_j4 =static_cast<std::ostringstream*>(&(std::ostringstream() << j4))->str();
+		stg_j5 =static_cast<std::ostringstream*>(&(std::ostringstream() << j5))->str();
+		stg_j6 =static_cast<std::ostringstream*>(&(std::ostringstream() << j6))->str();
+	 
+	  //Changing to radians and changing the sign  Lo cambio aquí porque es peor cambiar el urdf
+	  //Este cambio solo sirve para la simulación de gazebo
+	  j1=j1*2*pi/360;
+	  j1=j1* (-1);
+	  j2=j2+90;
+	  j2=j2*2*pi/360;
+	  j3=j3-90;
+	  j3=j3*2*pi/360;
+	  j4=j4*2*pi/360;
+	  j5=j5*2*pi/360;
+	  j6=j6*2*pi/360;
+
+
+	//Publicación en gazebo
+  std::cout<<"pub_gaz"<<j1<<','<<j2<<','<<j3<<','<<j4<<','<<j5<<','<<j6<<std::endl;
+	 msg.data=j1;
+	 pub_shoulder_2.publish(msg);
+	 msg.data=j2;
+	 pub_arm_2.publish(msg);
+	 msg.data=j3;
+	 pub_elbow_2.publish(msg);
+	 msg.data=j4;
+	 pub_forearm_2.publish(msg);
+	 msg.data=j5;
+	 pub_wrist_2.publish(msg);
+	 msg.data=j6;
+	 pub_flange_2.publish(msg);
+
+
+
+
+   ////////////////////////////////////////////Meter restricciones de los joints para dejar enviar o no
+   //////////////////////////////////////// comprobar si la salida de rviz haciendo echo y publicandolo a mano esta bien en gazbo, creo que las transformaciones las has hecho mal
+	printf("\nSend position to real Rx90?:[y/n]");
+	std::cin>>send_position;
+
+	if(send_position=='y')
+	  {
+		//Se manda sin los cambios de coordenadas realizados a Gazebo
+		Joints=stg_j1+","+stg_j2+","+stg_j3+","+stg_j4+","+stg_j5+","+stg_j6;
+		std::cout<< "\n" <<  Joints <<std::endl;
+		move_position(Joints);  
+	  }
+
+
 }
