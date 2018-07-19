@@ -28,6 +28,7 @@ private:
 	void init(const std::string& serialPort, const std::string& originPoint);
 	void close();
 	void catchIt();
+	void gazebo();
 	void move_position(const std::string &PPoint);
 	void sendCommand(const std::string& command, bool waitQuestionMark = false);
 	LibSerial::SerialStream serial;
