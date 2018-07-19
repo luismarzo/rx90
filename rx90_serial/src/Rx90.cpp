@@ -211,7 +211,7 @@ void Rx90::gazebo(){
 ros::Rate loop_rate(10);
 
       float j1,j2,j3,j4,j5,j6;
-      printf("READY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)");
+      printf("READY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)"); //Coordenadas del sistema de referencia del mando del Rx90
 	  printf("\nj1:");
 	  std::cin>>j1;
 	  printf("\nj2:");
@@ -225,7 +225,7 @@ ros::Rate loop_rate(10);
 	  printf("\nj6:");
 	  std::cin>>j6;
 
-		//Se hace antes para no pillar las transformaciones
+		//Se hace antes para no pillar las transformaciones a Gazebo
 	  	std::string Joints;
 		std::string stg_j1,stg_j2,stg_j3,stg_j4,stg_j5,stg_j6;
 		stg_j1 =static_cast<std::ostringstream*>(&(std::ostringstream() << j1))->str();
@@ -248,7 +248,7 @@ ros::Rate loop_rate(10);
 	  j6=j6*2*pi/360;
 
 
-
+	//Publicación en gazebo
 	 msg.data=j1;
 	 pub_shoulder_2.publish(msg);
 	 msg.data=j2;
@@ -267,7 +267,7 @@ ros::Rate loop_rate(10);
 
 	if(send_position=='y')
 	  {
-
+		//Se manda sin los cambios de coordenadas realizados a Gazebo
 		Joints=stg_j1+","+stg_j2+","+stg_j3+","+stg_j4+","+stg_j5+","+stg_j6;
 		std::cout<< "\n" <<  Joints <<std::endl;
 		move_position(Joints);  

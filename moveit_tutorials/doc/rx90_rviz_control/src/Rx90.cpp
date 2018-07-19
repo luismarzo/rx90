@@ -13,7 +13,6 @@
 #include <cmath>
 #include <stdexcept>
 
-
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
@@ -27,215 +26,217 @@
 
 #define pi 3.14159265359
 
-
-
-
 #define DELTA_VH 25
 #define DELTA_DIAG (0.707 * DELTA_VH)
 #define END "\r\n"
 
 using namespace LibSerial;
 
-Rx90::Rx90(const std::string &serialPort, const std::string &originPoint)
+Rx90::Rx90(const std::string& serialPort, const std::string& originPoint)
 {
-
-	init(serialPort, originPoint);
-	x = 0.0;
-	y = 0.0;
+  init(serialPort, originPoint);
+  x = 0.0;
+  y = 0.0;
 }
 
-Rx90::~Rx90() { close(); }
-
-void Rx90::init(const std::string &serialPort, const std::string &originPoint)
+Rx90::~Rx90()
 {
-
-	serial.Open(serialPort.c_str());
-	serial.SetBaudRate(SerialStreamBuf::BAUD_9600);
-	serial.SetParity(SerialStreamBuf::PARITY_NONE);
-	serial.SetCharSize(SerialStreamBuf::CHAR_SIZE_8);
-	serial.SetFlowControl(SerialStreamBuf::FLOW_CONTROL_NONE);
-	serial.SetNumOfStopBits(1);
-	serial.unsetf(std::ios_base::skipws);
-
-	// Set origin precision point
-	std::stringstream command_origin, command_pose;
-	command_origin << "DO SET #ORIGIN=#PPOINT(" << originPoint.c_str() << ")";
-	command_pose << "DO SET #POSE=#PPOINT(" << originPoint.c_str() << ")";
-	std::cout<<originPoint.c_str()<<std::endl;
-	sendCommand(command_origin.str());
-	sendCommand(command_pose.str());
-	sendCommand("SPEED 10"); 
-	sendCommand("DO ABOVE");
-	sendCommand("DO MOVE #ORIGIN");
-	sendCommand("HERE ORIGIN", true);
-	sendCommand("DO OPENI");
-	sendCommand("DO ENABLE CP");
+  close();
 }
 
-void Rx90::close() { serial.Close(); }
-
-void Rx90::sendCommand(const std::string &command, bool waitQuestionMark)
+void Rx90::init(const std::string& serialPort, const std::string& originPoint)
 {
+  serial.Open(serialPort.c_str());
+  serial.SetBaudRate(SerialStreamBuf::BAUD_9600);
+  serial.SetParity(SerialStreamBuf::PARITY_NONE);
+  serial.SetCharSize(SerialStreamBuf::CHAR_SIZE_8);
+  serial.SetFlowControl(SerialStreamBuf::FLOW_CONTROL_NONE);
+  serial.SetNumOfStopBits(1);
+  serial.unsetf(std::ios_base::skipws);
 
-	if (serial.IsOpen())
-	{
-
-		serial << command << END;
-
-		if (waitQuestionMark)
-		{
-			char qm;
-			do
-			{
-				serial >> qm;
-			} while (qm != '?');
-			serial << END;
-		}
-
-		char r;
-		do
-		{
-			serial >> r;
-			std::cout << r;
-		} while (r != '.');
-	}
-	else
-	{
-		std::cout << "Serial port not opened" << std::endl;
-	}
+  // Set origin precision point
+  std::stringstream command_origin, command_pose;
+  command_origin << "DO SET #ORIGIN=#PPOINT(" << originPoint.c_str() << ")";
+  command_pose << "DO SET #POSE=#PPOINT(" << originPoint.c_str() << ")";
+  std::cout << originPoint.c_str() << std::endl;
+  sendCommand(command_origin.str());
+  sendCommand(command_pose.str());
+  sendCommand("SPEED 10");
+  sendCommand("DO ABOVE");
+  sendCommand("DO MOVE #ORIGIN");
+  sendCommand("HERE ORIGIN", true);
+  sendCommand("DO OPENI");
+  sendCommand("DO ENABLE CP");
 }
 
-void Rx90::panic() { sendCommand("PANIC"); }
-
-void Rx90::move(const Action &action)
+void Rx90::close()
 {
-
-	std::string Point;
-
-	switch (action)
-	{
-	case NONE:
-		break;
-	case UP:
-		y += DELTA_VH;
-		break;
-	case DOWN:
-		y -= DELTA_VH;
-		break;
-	case RIGHT:
-		x += DELTA_VH;
-		break;
-	case LEFT:
-		x -= DELTA_VH;
-		break;
-	case UP_RIGHT:
-		x += DELTA_DIAG;
-		y += DELTA_DIAG;
-		break;
-	case UP_LEFT:
-		x -= DELTA_DIAG;
-		y += DELTA_DIAG;
-		break;
-	case DOWN_LEFT:
-		x -= DELTA_DIAG;
-		y -= DELTA_DIAG;
-		break;
-	case DOWN_RIGHT:
-		x += DELTA_DIAG;
-		y -= DELTA_DIAG;
-		break;
-	case CATCH:
-		catchIt();
-		break;
-	case POSITION:
-	    rviz();
-		//std::cout << "\n Give me a position Example:122,-77,-19,55,45,-43" << std::endl;
-		//std::cin >> Point;
-		//std::cout << Point << std::endl;
-		//move_position(Point);
-		break;
-	default:
-		std::cout << "unexpected!";
-	}
-
-	// send the command
-	if (action != POSITION)
-	{
-		std::stringstream sstr;
-		sstr << "DO SET P" << "=SHIFT(POSE BY " << (int)x << "," << (int)y << ",0)";
-		std::string command = sstr.str();
-		sendCommand(command);
-		sendCommand("SPEED 10");
-		sendCommand("DO MOVES P");
-	}
-	else
-	{
-	}
+  serial.Close();
 }
 
-void Rx90::move_position(const std::string &PPoint)
+void Rx90::sendCommand(const std::string& command, bool waitQuestionMark)
 {
-    /*std::string Point;
-	Point = "100,-77,-43,55,45,-43";*/
-	std::stringstream command_pose;
-	command_pose << "DO SET #POSE=#PPOINT(" << PPoint.c_str() << ")";
-	sendCommand(command_pose.str());
-	sendCommand("SPEED 10");
-	sendCommand("DO ABOVE");
-	sendCommand("DO MOVE #POSE");
+  if (serial.IsOpen())
+  {
+    serial << command << END;
+
+    if (waitQuestionMark)
+    {
+      char qm;
+      do
+      {
+        serial >> qm;
+      } while (qm != '?');
+      serial << END;
+    }
+
+    char r;
+    do
+    {
+      serial >> r;
+      std::cout << r;
+    } while (r != '.');
+  }
+  else
+  {
+    std::cout << "Serial port not opened" << std::endl;
+  }
 }
 
-void Rx90::catchIt() { sendCommand("DO CLOSEI"); }
-
-void Rx90::printAction(const Action &action)
+void Rx90::panic()
 {
-
-	std::cout << "Rx90::printAction: ";
-	switch (action)
-	{
-	case NONE:
-		std::cout << "none!";
-		break;
-	case UP:
-		std::cout << "up!";
-		break;
-	case DOWN:
-		std::cout << "down!";
-		break;
-	case RIGHT:
-		std::cout << "right!";
-		break;
-	case LEFT:
-		std::cout << "left!";
-		break;
-	case UP_RIGHT:
-		std::cout << "up-right!";
-		break;
-	case UP_LEFT:
-		std::cout << "up-left!";
-		break;
-	case DOWN_LEFT:
-		std::cout << "down-left!";
-		break;
-	case DOWN_RIGHT:
-		std::cout << "down-right!";
-		break;
-	case CATCH:
-		std::cout << "catch!";
-		break;
-	case POSITION:
-		std::cout << "moving to a position!";
-		break;
-	default:
-		std::cout << "unexpected!";
-	}
-	std::cout << std::endl;
+  sendCommand("PANIC");
 }
 
-void Rx90::rviz(){
+void Rx90::move(const Action& action)
+{
+  std::string Point;
 
+  switch (action)
+  {
+    case NONE:
+      break;
+    case UP:
+      y += DELTA_VH;
+      break;
+    case DOWN:
+      y -= DELTA_VH;
+      break;
+    case RIGHT:
+      x += DELTA_VH;
+      break;
+    case LEFT:
+      x -= DELTA_VH;
+      break;
+    case UP_RIGHT:
+      x += DELTA_DIAG;
+      y += DELTA_DIAG;
+      break;
+    case UP_LEFT:
+      x -= DELTA_DIAG;
+      y += DELTA_DIAG;
+      break;
+    case DOWN_LEFT:
+      x -= DELTA_DIAG;
+      y -= DELTA_DIAG;
+      break;
+    case DOWN_RIGHT:
+      x += DELTA_DIAG;
+      y -= DELTA_DIAG;
+      break;
+    case CATCH:
+      catchIt();
+      break;
+    case POSITION:
+      rviz();
+      // std::cout << "\n Give me a position Example:122,-77,-19,55,45,-43" << std::endl;
+      // std::cin >> Point;
+      // std::cout << Point << std::endl;
+      // move_position(Point);
+      break;
+    default:
+      std::cout << "unexpected!";
+  }
 
+  // send the command
+  if (action != POSITION)
+  {
+    std::stringstream sstr;
+    sstr << "DO SET P"
+         << "=SHIFT(POSE BY " << (int)x << "," << (int)y << ",0)";
+    std::string command = sstr.str();
+    sendCommand(command);
+    sendCommand("SPEED 10");
+    sendCommand("DO MOVES P");
+  }
+  else
+  {
+  }
+}
 
+void Rx90::move_position(const std::string& PPoint)
+{
+  /*std::string Point;
+Point = "100,-77,-43,55,45,-43";*/
+  std::stringstream command_pose;
+  command_pose << "DO SET #POSE=#PPOINT(" << PPoint.c_str() << ")";
+  sendCommand(command_pose.str());
+  sendCommand("SPEED 10");
+  sendCommand("DO ABOVE");
+  sendCommand("DO MOVE #POSE");
+}
+
+void Rx90::catchIt()
+{
+  sendCommand("DO CLOSEI");
+}
+
+void Rx90::printAction(const Action& action)
+{
+  std::cout << "Rx90::printAction: ";
+  switch (action)
+  {
+    case NONE:
+      std::cout << "none!";
+      break;
+    case UP:
+      std::cout << "up!";
+      break;
+    case DOWN:
+      std::cout << "down!";
+      break;
+    case RIGHT:
+      std::cout << "right!";
+      break;
+    case LEFT:
+      std::cout << "left!";
+      break;
+    case UP_RIGHT:
+      std::cout << "up-right!";
+      break;
+    case UP_LEFT:
+      std::cout << "up-left!";
+      break;
+    case DOWN_LEFT:
+      std::cout << "down-left!";
+      break;
+    case DOWN_RIGHT:
+      std::cout << "down-right!";
+      break;
+    case CATCH:
+      std::cout << "catch!";
+      break;
+    case POSITION:
+      std::cout << "moving to a position!";
+      break;
+    default:
+      std::cout << "unexpected!";
+  }
+  std::cout << std::endl;
+}
+
+void Rx90::rviz()
+{
   static const std::string PLANNING_GROUP = "rx90_arm";
 
   moveit::planning_interface::MoveGroupInterface move_group(PLANNING_GROUP);
@@ -261,14 +262,13 @@ void Rx90::rviz(){
 
   ROS_INFO_NAMED("tutorial", "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
-
   // z minimo real=270mm-370
   // eje x e y cambiados
   // al y le pones signo contrario
 
   float x, y, z, rotx, roty, rotz, aux;
-  char send_position='y';
-  std::string stg_x,stg_y,stg_z,stg_r,stg_p,stg_w;
+  char send_position = 'y';
+  //std::string stg_x, stg_y, stg_z, stg_r, stg_p, stg_w;
 
   std::string Point;
   geometry_msgs::Pose target_pose1;
@@ -276,119 +276,131 @@ void Rx90::rviz(){
   bool success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
   tf::Quaternion q;
 
- 
-    printf("\033[01;33m");
-    printf("\nMoving to a pose. Enter the desired pose (milimeters and degrees)\n");
-    printf("\nx:");
-    std::cin >> x;
-    printf("\ny:");
-    std::cin >> y;
-    printf("\nz:");
-    std::cin >> z;
-    printf("\nrotx:");
-    std::cin >> rotx;
-    printf("\nroty:");
-    std::cin >> roty;
-    printf("\nrotz:");
-    std::cin >> rotz;
-    printf("\033[01;33m");
+  printf("\033[01;33m");
+  printf("\nMoving to a pose. Enter the desired pose (milimeters and degrees)\n");
+  printf("\nx:");
+  std::cin >> x;
+  printf("\ny:");
+  std::cin >> y;
+  printf("\nz:");
+  std::cin >> z;
+  printf("\nrotx:");
+  std::cin >> rotx;
+  printf("\nroty:");
+  std::cin >> roty;
+  printf("\nrotz:");
+  std::cin >> rotz;
+  printf("\033[01;33m");
 
-	//antes del cambio de coordenadas guardamos variables por si hay que enviarlas
-	stg_x =static_cast<std::ostringstream*>(&(std::ostringstream() << x))->str();
-	stg_y =static_cast<std::ostringstream*>(&(std::ostringstream() << y))->str();
-	stg_z =static_cast<std::ostringstream*>(&(std::ostringstream() << z))->str();
-	stg_r =static_cast<std::ostringstream*>(&(std::ostringstream() << rotx))->str();
-	stg_p =static_cast<std::ostringstream*>(&(std::ostringstream() << roty))->str();
-	stg_w =static_cast<std::ostringstream*>(&(std::ostringstream() << rotz))->str();
+  // antes del cambio de coordenadas guardamos variables por si hay que enviarlas
+  //stg_x = static_cast<std::ostringstream*>(&(std::ostringstream() << x))->str();
+  //stg_y = static_cast<std::ostringstream*>(&(std::ostringstream() << y))->str();
+  //stg_z = static_cast<std::ostringstream*>(&(std::ostringstream() << z))->str();
+  //stg_r = static_cast<std::ostringstream*>(&(std::ostringstream() << rotx))->str();
+  //stg_p = static_cast<std::ostringstream*>(&(std::ostringstream() << roty))->str();
+  //stg_w = static_cast<std::ostringstream*>(&(std::ostringstream() << rotz))->str();
 
-    // cambio de coordenadas para el real
+  // cambio de coordenadas para el real
 
-	//y maxima 970, en simulacion 1080
-	//z max 970, minimo es -284. en simulacon la minima es 100 y maxima 1500. punto intermedio 500
-	//x max 970
+  // y maxima 970, en simulacion 1080
+  // z max 970, minimo es -284. en simulacon la minima es 100 y maxima 1500. punto intermedio 500
+  // x max 970
 
-	//y=180 mira hacia abajo, 0 hacia arriba y 90 recto.
+  // y=180 mira hacia abajo, 0 hacia arriba y 90 recto.
 
+  // posiciones que se le van a enviiar -89.57,-393.16,580.48,-167.73,73.76,-103.63
+  //-406.54,-273.28,847.70,-147.53,35.53,-147.83
+  // calibrar el robot es en putty:
+  //.cal
+  //.do ready
 
-	//posiciones que se le van a enviiar -89.57,-393.16,580.48,-167.73,73.76,-103.63
-	//-406.54,-273.28,847.70,-147.53,35.53,-147.83
-	//calibrar el robot es en putty:
-	//.cal
-	//.do ready
+  // 65.67,-355.19,k617.37,-145.87,53.40,-117.86
+  y = y * 1080 / 970;
+  x = x * 1080 / 970;
+  z = z + 284;
+  z = z * 1350 / 1254;
+  z = z + 100;
 
-	//65.67,-355.19,k617.37,-145.87,53.40,-117.86
-	y=y*1080/970;
-	x=x*1080/970;
-	z=z+284;
-    z=z*1350/1254;
-	z=z+100;
-	
-    
-    aux = x;
-    x = y;
-    y = aux;
-    x = (-1) * x;
+  aux = x;
+  x = y;
+  y = aux;
+  x = (-1) * x;
 
-    x = x / 1000;
-    y = y / 1000;
-    z = z / 1000;
+  x = x / 1000;
+  y = y / 1000;
+  z = z / 1000;
 
-	rotz=rotz+90;
-	roty=roty-90;
+  rotz = rotz + 90;
+  roty = roty - 90;
 
-    // changing into radians
-    rotx = rotx * 2 * pi / 360;
-    roty = roty * 2 * pi / 360;
-    rotz = rotz * 2 * pi / 360;
+  // changing into radians
+  rotx = rotx * 2 * pi / 360;
+  roty = roty * 2 * pi / 360;
+  rotz = rotz * 2 * pi / 360;
 
-    q.setEulerZYX(rotz, roty, rotx);
+  q.setEulerZYX(rotz, roty, rotx);
 
-    if (z < 0.1)
+  if (z < 0.1)
+  {
+    printf("\033[1;31m");
+    printf("\n[ERROR]: Variable 'z' must be mayor than 100");
+    printf("\033[1;31m");
+  }
+  else
+  {
+    target_pose1.orientation.w = q.w();
+    target_pose1.position.x = x;
+    target_pose1.position.y = y;
+    target_pose1.position.z = z;
+    target_pose1.orientation.x = q.x();
+    target_pose1.orientation.y = q.y();
+    target_pose1.orientation.z = q.z();
+    move_group.setPoseTarget(target_pose1);
+    move_group.move();
+    // move_group.setRPYTarget(xx,yy,zz);
+    success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+    ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
+    ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
+    visual_tools.publishAxisLabeled(target_pose1, "pose1");
+    visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
+    visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
+    visual_tools.trigger();
+
+    // printf("\033[01;33m");
+    printf("\nSend position to real Rx90?:[y/n]");
+    // printf("\033[01;33m");
+
+    std::cin >> send_position;
+
+    if (send_position == 'y')
     {
-      printf("\033[1;31m");
-      printf("\n[ERROR]: Variable 'z' must be mayor than 100");
-      printf("\033[1;31m");
+      std::cout << "Vamos a leer las posiciones de las articulaciones " << std::endl;
+      moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
+      std::vector<double> joint_group_positions;
+      current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
+
+	  //Aquí podría mandar las coordenadas a gazebo para visualizarlo
+
+	  //Cambio de coordenadas de gazebo a robot real para enviarselas al rx90
+	  // joint_group_positions[0]=;
+	  // joint_group_positions[1]=;
+	  // joint_group_positions[2]=;
+	  // joint_group_positions[3]=;
+	  // joint_group_positions[4]=;
+	  // joint_group_positions[5]=;
+
+	  //cambio a string
+
+	  // joint_group_positions[0] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[0]))->str();
+	  // joint_group_positions[1] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[1]))->str();
+	  // joint_group_positions[2] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[2]))->str();
+	  // joint_group_positions[3] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[3]))->str();
+	  // joint_group_positions[4] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[4]))->str();
+	  // joint_group_positions[5] = static_cast<std::ostringstream*>(&(std::ostringstream() << joint_group_positions[5]))->str();
+	  
+      //  Point=joint_group_positions[0]+","+joint_group_positions[1]+","+joint_group_positions[2]+","+joint_group_positions[3]+","+joint_group_positions[4]+","+joint_group_positions[5];
+      //  std::cout<< Point<<std::endl;
+      //  move_position(Point);  // Antes de enviar nada debes de comprobar el roll pitch yaw reales
     }
-    else
-    {
-      target_pose1.orientation.w = q.w();
-      target_pose1.position.x = x;
-      target_pose1.position.y = y;
-      target_pose1.position.z = z;
-      target_pose1.orientation.x = q.x();
-      target_pose1.orientation.y = q.y();
-      target_pose1.orientation.z = q.z();
-      move_group.setPoseTarget(target_pose1);
-      move_group.move();
-      // move_group.setRPYTarget(xx,yy,zz);
-      success = (move_group.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
-      ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
-      ROS_INFO_NAMED("tutorial", "Visualizing plan 1 as trajectory line");
-      visual_tools.publishAxisLabeled(target_pose1, "pose1");
-      visual_tools.publishText(text_pose, "Pose Goal", rvt::WHITE, rvt::XLARGE);
-      visual_tools.publishTrajectoryLine(my_plan.trajectory_, joint_model_group);
-      visual_tools.trigger();
-
-	  //printf("\033[01;33m");
-      printf("\nSend position to real Rx90?:[y/n]");
-      //printf("\033[01;33m");
-
-	  std::cin>>send_position;
-
-	  if(send_position=='y')
-	  {
-
-		  //Esto esta mal, debes mandarle joints no posicion x,y, z
-		//Point=stg_x+","+stg_y+","+stg_z+","+stg_r+","+stg_p+","+stg_w;
-		//std::cout<< Point<<std::endl;
-		//move_position(Point);  // Antes de enviar nada debes de comprobar el roll pitch yaw reales
-	  }
-
-
-    }
-
-
-
-
-
+  }
 }
