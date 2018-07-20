@@ -24,7 +24,6 @@
 int main(int argc, char **argv)
 {
    ros::init(argc, argv, "rx90_rviz_control");
-   ros::NodeHandle node_handle;
    ros::AsyncSpinner spinner(1);
    spinner.start();
 
@@ -75,6 +74,9 @@ int main(int argc, char **argv)
 			break;
 		case 'p':
 			action = Rx90::POSITION;
+			break;
+		case 'n':
+			action = Rx90::NONE;
 			break;
 		default:
 			std::cout << "Repeat key\n"
