@@ -29,6 +29,7 @@ private:
 	void close();
 	void catchIt();
 	void rviz();
+	void rviz_check_collision(); //not necesary in our case
 	void gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _j6, char send);
 	void move_position(const std::string &PPoint);
 	void sendCommand(const std::string& command, bool waitQuestionMark = false);

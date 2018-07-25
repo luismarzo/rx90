@@ -11,7 +11,10 @@
   <xacro:include filename="$(find rx90_description)/urdf/materials.xacro" />
   
     
-
+<gazebo>
+<plugin name="contact_plugin" filename="libcontact_plugin.so">
+</plugin>
+</gazebo>
 
   <link name="world"/>
 <!--link name="base_link"/-->

@@ -47,3 +47,7 @@ add_dependencies(main_publisher rx90_control_generate_messages_cpp)
 add_executable(main_catch "src/main_catch.cpp")
 target_link_libraries(main_catch ${catkin_LIBRARIES})
 add_dependencies(main_catch rx90_control_generate_messages_cpp)
+
+#add_executable(collision_plugin src/collision_plugin.cpp)
+add_library(contact_plugin SHARED src/contact_plugin.cpp)
+target_link_libraries(contact_plugin ${GAZEBO_LIBRARIES})

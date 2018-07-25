@@ -16,6 +16,7 @@ find_package(catkin REQUIRED
     rospy
     std_msgs
     genmsg
+    gazebo_ros
     gazebo_msgs
     moveit_core
     moveit_visual_tools
@@ -48,6 +49,19 @@ catkin_package(
 ###########
 ## Build ##
 ###########
+
+
+include_directories(include ${catkin_INCLUDE_DIRS})
+
+find_package(gazebo REQUIRED)
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+list(APPEND CMAKE_CXX_FLAGS "${GAZEBO_CXX_FLAGS}")
+
+find_package(gazebo REQUIRED)
+link_directories(${GAZEBO_LIBRARY_DIRS})
+include_directories(${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS})
+
 
 include_directories(SYSTEM ${THIS_PACKAGE_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIRS})
 include_directories(${catkin_INCLUDE_DIRS})

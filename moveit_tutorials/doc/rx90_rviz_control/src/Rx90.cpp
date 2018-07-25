@@ -27,6 +27,7 @@
 #include <tf/transform_datatypes.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
+#include <gazebo/physics/physics.hh>
 #define pi 3.14159265359
 
 #define DELTA_VH 25
@@ -406,6 +407,23 @@ void Rx90::rviz()
       gazebo(j1,j2,j3,j4,j5,j6,'y');
     }
   }
+
+  //rviz_check_collision();    //not necesary in our case
+
+}
+
+void Rx90::rviz_check_collision(){
+
+robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
+robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
+planning_scene::PlanningScene planning_scene(kinematic_model);
+collision_detection::CollisionRequest collision_request;
+collision_detection::CollisionResult collision_result;
+planning_scene.checkSelfCollision(collision_request, collision_result);
+ROS_INFO_STREAM("[Checking collision]: Current state is "
+                << (collision_result.collision ? "in" : "not in")
+                << " self collision");
+
 }
 
 
@@ -440,10 +458,11 @@ void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _
 ros::Rate loop_rate(10);
 float j1,j2,j3,j4,j5,j6;
 
+
   if(send=='n')  //Las posiciones de las joints no vienen de la función rviz
   {
       
-      printf("READY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)"); //Coordenadas del sistema de referencia del mando del Rx90
+    printf("\nREADY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)"); //Coordenadas del sistema de referencia del mando del Rx90
 	  printf("\nj1:");
 	  std::cin>>j1;
 	  printf("\nj2:");
@@ -456,11 +475,12 @@ float j1,j2,j3,j4,j5,j6;
 	  std::cin>>j5;
 	  printf("\nj6:");
 	  std::cin>>j6;
+    
   }
   
   else
   {
-    // printf("INTRODUCE COORDENADAS ALEATORIAS, PREGUNTAR A PABLO ESTE ISSUE"); //Coordenadas del sistema de referencia del mando del Rx90
+     printf("\nGazebo function"); //Coordenadas del sistema de referencia del mando del Rx90
 	  // printf("\nj1:");
 	  // std::cin>>j1;
 	  // printf("\nj2:");
@@ -480,7 +500,37 @@ float j1,j2,j3,j4,j5,j6;
     j5=_j5;
     j6=_j6;
   }
+
+int prohibited_joint=0;
+
+  //  if(j1> 0 || j1< 0)
+  //   {
+  //     printf("\n[ERROR]: Joint 1 max and min limits are .Exiting...");
+  //     prohibited_joint=1;
+  //   }
+  //   else if(j2> 0 || j2< 0){
+  //     printf("\n[ERROR]: Joint 2 max and min limits are .Exiting...");
+  //     prohibited_joint=1;    
+  //   }
+  //   else if(j3> 0 || j3< 0){
+  //      printf("\n[ERROR]: Joint 3 max and min limits are .Exiting...");
+  //     prohibited_joint=1;
+  //   }
+  //   else if(j4> 0 || j4< 0){
+  //      printf("\n[ERROR]: Joint 4 max and min limits are .Exiting...");
+  //     prohibited_joint=1;
+  //   }
+  //   else if(j5> 0 || j5< 0){
+  //      printf("\n[ERROR]: Joint 5 max and min limits are .Exiting...");
+  //     prohibited_joint=1;
+  //   }
+  //   else if(j6> 0 || j6< 0){
+  //     printf("\n[ERROR]: Joint 6 max and min limits are . Exiting...");
+  //     prohibited_joint=1;
+  //   }
+  //physics::
   
+  if(prohibited_joint==0){
 		//Se hace antes para no pillar las transformaciones a Gazebo
 	  std::string Joints;
 		std::string stg_j1,stg_j2,stg_j3,stg_j4,stg_j5,stg_j6;
@@ -506,7 +556,7 @@ float j1,j2,j3,j4,j5,j6;
 
 	//Publicación en gazebo
 	 msg.data=j1;
-   std::cout<<"pub_msgdataaa:"<<msg.data<<std::endl;
+   
 	 pub_shoulder_2.publish(msg);
 	 msg.data=j2;
 	 pub_arm_2.publish(msg);
@@ -535,5 +585,5 @@ float j1,j2,j3,j4,j5,j6;
 		move_position(Joints);  
 	  }
 
-
+  }
 }
