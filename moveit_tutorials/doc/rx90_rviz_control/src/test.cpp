@@ -17,6 +17,9 @@
 #include <moveit_msgs/CollisionObject.h>
 #include <tf/transform_datatypes.h>
 #include <moveit_visual_tools/moveit_visual_tools.h>
+#include <gazebo/transport/transport.hh>
+#include <gazebo/msgs/msgs.hh>
+#include <gazebo/gazebo_client.hh>
 
 
 
@@ -24,6 +27,7 @@
 int main(int argc, char **argv)
 {
    ros::init(argc, argv, "rx90_rviz_control");
+   gazebo::client::setup(argc, argv);
    ros::AsyncSpinner spinner(1);
    spinner.start();
 

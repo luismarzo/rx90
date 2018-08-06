@@ -28,6 +28,14 @@
 #include <moveit_visual_tools/moveit_visual_tools.h>
 
 #include <gazebo/physics/physics.hh>
+#include <gazebo/transport/transport.hh>
+#include <gazebo/msgs/msgs.hh>
+#include <gazebo/gazebo_client.hh>
+
+
+
+#include <gazebo/common/Plugin.hh>
+#include "std_msgs/String.h"
 #define pi 3.14159265359
 
 #define DELTA_VH 25
@@ -425,7 +433,14 @@ ROS_INFO_STREAM("[Checking collision]: Current state is "
                 << " self collision");
 
 }
-
+//void cb(ConstWorldStatisticsPtr &_msg)
+void cb(ConstContactsPtr &_msg)
+{
+  //std::cout<<"hola"<<std::endl;
+  //std::cout << _msg->DebugString();
+  //std::cout<<_msg->buffer<<std::endl;
+std::cout<<_msg->contact_size()<<std::endl;
+}
 
 void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _j6, char send){
 
@@ -454,6 +469,18 @@ void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _
   ros::Publisher pub_lgripper_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_LGRIPPER_JOINT_position_controller/command", 1000);
   ros::Publisher pub_rgripper_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_RGRIPPER_JOINT_position_controller/command", 1000);
   ros::Publisher pub_mgripper_2 = n.advertise<std_msgs::Float64>("/rx90_2/RX90_MGRIPPER_JOINT_position_controller/command", 1000);
+
+
+  gazebo::transport::NodePtr node(new gazebo::transport::Node());
+  node->Init();
+  // Listen to Gazebo  topic (different from ros topics)
+  gazebo::transport::SubscriberPtr sub = node->Subscribe("~/physics/contacts", cb);
+  //gazebo::transport::SubscriberPtr sub = node->Subscribe("~/world_stats", cb);
+
+
+
+
+
 
 ros::Rate loop_rate(10);
 float j1,j2,j3,j4,j5,j6;

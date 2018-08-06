@@ -16,6 +16,7 @@
 
 #include <gazebo/common/Plugin.hh>
 #include <ros/ros.h>
+#include "std_msgs/String.h"
 //#include "service_tutorial/Set_position.h"
 //#include "service_tutorial/Set_position.h"
 //#include <LinkConfig.hh>
@@ -57,8 +58,12 @@ class contact_plugin : public ModelPlugin
 		ros::NodeHandle n;
 		ROS_INFO("Ready.");
 		this->contactManager = this->model->GetWorld()->GetPhysicsEngine()->GetContactManager();
+		
 
-
+		//Subcribe to gazebo topic
+		// gazebo::transport::NodePtr node(new gazebo::transport::Node());
+		// node->Init();
+		// gazebo::transport::SubscriberPtr sub = node->Subscribe("~/world_stats", cb);
 
 		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&contact_plugin::OnUpdate, this, _1));
 	}
@@ -79,15 +84,25 @@ class contact_plugin : public ModelPlugin
 
 		const std::vector<gazebo::physics::Contact*>& contacts = this->contactManager->GetContacts();
 		unsigned int howManyContacts = contacts.size();
-		if (contador==220 ) {
+		//if (contador==400 ) {
 		//shows four, which are assumed to be between the gripper plates and the floor
-		printf("This many contacts: %d\n", howManyContacts);
-		contador=0;
-}
-		contador++;
-		if(col1!=NULL || col2!=NULL || col3!=NULL || col4!=NULL || col5!=NULL || col6!=NULL || col7!=NULL || col8!=NULL || col9!=NULL || col10!=NULL) 
-		{std::cout<<"Colision"<<std::endl;}
+		//printf("This many contacts: %d\n", howManyContacts);
+		//contador=0;
+//}
+//		contador++;
+		//if(col1!=NULL || col2!=NULL || col3!=NULL || col4!=NULL || col5!=NULL || col6!=NULL || col7!=NULL || col8!=NULL || col9!=NULL || col10!=NULL) 
+		if(howManyContacts!=0)
+		{std::cout<<"Collision"<<std::endl;}
 	}
+
+
+// public:
+// static void cb(ConstWorldStatisticsPtr &_msg)
+// {
+// 	printf("ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+//   std::cout << _msg->DebugString();
+// }
+
 
   private:
 	physics::ModelPtr model;
@@ -109,6 +124,18 @@ class contact_plugin : public ModelPlugin
 	physics::Model_V nombres;
 	std::string nombre_mundo;
 	math::Pose static_position;
+
+
+    gazebo::physics::ContactManager* cManager;
+    bool isContact;
+    gazebo::transport::SubscriberPtr contactSub;
+	gazebo::transport::NodePtr contactNod;
+	    unsigned int freq;
+unsigned int varfreq;
+
+
+
+
 };
 
 // Register this plugin with the simulator

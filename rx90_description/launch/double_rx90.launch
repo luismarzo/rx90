@@ -59,7 +59,8 @@
  <arg name="ns" value="/rx90_2"/> 
  </include>
 
-<include file="$(find rx90_floor_moveitconfig)/launch/demo.launch"/>
+<include file="$(find rx90_floor_moveitconfig)/launch/demo.launch"/>  <!--cuidado con el plugin, al ponerselo puede que gazebo arranque mas tarde y de problemas con rviz. 
+intenta quitar los printf para que carge antes-->
 
 
 </launch>
