@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.3)  6 AUG 2018 10:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.4)  6 AUG 2018 17:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3408,15 +3408,11 @@ LaTeX Font Info:    Try loading font information for U+rsfs on input line 126.
 (/usr/share/texlive/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-Underfull \hbox (badness 3375) in paragraph at lines 126--126
-[]\T1/ptm/m/n/20.74 Formato de Pu-bli-ca-ción de la Es-cue-la
- []
-
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 126.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <13.99994> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 126.
-[1
+ [1
 
 \openout6 = `pfcTipoETSI.ist'.
 
@@ -5414,10 +5410,10 @@ LaTeX Warning: There were multiply-defined labels.
  )
 (\end occurred when \iftrue on line 455 was incomplete) 
 Here is how much of TeX's memory you used:
- 69062 strings out of 493029
- 1480240 string characters out of 6136235
- 2007771 words of memory out of 5000000
- 70167 multiletter control sequences out of 15000+600000
+ 69061 strings out of 493029
+ 1480237 string characters out of 6136235
+ 2007608 words of memory out of 5000000
+ 70166 multiletter control sequences out of 15000+600000
  145215 words of font info for 327 fonts, out of 8000000 for 9000
  1162 hyphenation exceptions out of 8191
  82i,28n,145p,10480b,2869s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -5444,7 +5440,7 @@ ve/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
 /times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on pfcTipoETSI.pdf (77 pages, 2205103 bytes).
+Output written on pfcTipoETSI.pdf (77 pages, 2204847 bytes).
 PDF statistics:
  2276 PDF objects out of 2487 (max. 8388607)
  2060 compressed objects within 21 object streams

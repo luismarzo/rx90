@@ -11,11 +11,11 @@
 {\SetBgAngle{0}%
 \SetBgHshift{0} 
 \SetBgColor{gray!75}%
- \SetBgContents{\copyright\ \afiliafont \elautor\;\afiliafont \eldepartamento\;\afiliafont\launiversidad\; \today  \; \timestring}}%
+ \SetBgContents{\copyright\ \afiliafont \elauthor\;\afiliafont \eldepartamento\;\afiliafont\launiversidad\; \today  \; \timestring}}%
 {\SetBgAngle{0}
 \SetBgColor{gray!75}%
 \SetBgHshift{0} 
-   \SetBgContents{\afiliafont \timestring\; \today \; \afiliafont \eldepartamento\;\afiliafont\launiversidad \; \copyright\ \afiliafont \elautor}}%
+   \SetBgContents{\afiliafont \timestring\; \today \; \afiliafont \eldepartamento\;\afiliafont\launiversidad \; \copyright\ \afiliafont \elauthor}}%
 \bg@material} 
 \makeatother
 }{}
@@ -27,10 +27,10 @@
 %:Definición de las variables
 \def\titulo#1{\def\eltitulo{#1}}
 \def\subtitulo#1{\def\elsubtitulo{\subtitulofont #1}}
-\def\autor#1{\def\elautor{ #1}}
+\def\author#1{\def\elauthor{ #1}}
 \def\director#1{\def\eldirector{ #1}}
 \def\titulodirector#1{\def\eltitulodirector{ #1}}
-\let\autors\autor
+\let\authors\author
 \def\edicion#1{\def\laedicion{\editionfont #1}}
 \def\departamento#1{\def\eldepartamento{#1}}
 \def\centro#1{\def\elcentro{#1}}
@@ -44,7 +44,7 @@
 \titulo{}
 \subtitulo{}
 \edicion{}
-\autor{}
+\author{}
 \director{}
 \titulodirector{}
 \departamento{}
@@ -117,7 +117,7 @@
 			at ([xshift=40mm,yshift=-165mm]current page.north west) (name) 
 			{\begin{minipage}{0.90\textwidth}
 				\setstretch{2}
-				{\Large Autor:\elautor}\newline
+				{\Large Author:\elauthor}\newline
 				{\Large Tutor:\eldirector}
 			\end{minipage}};
   
@@ -159,11 +159,11 @@
 	\end{center}
 	\vspace{2cm}
 	\begin{center}
-		Autor:\par
+		Author:\par
         	\vspace{0.2cm}
-        	{\large \elautor} \par
+        	{\large \elauthor} \par
        	 \vspace{0.2cm}
-      		%  \autortitulo\\  %Poner si es para un máster, tesis...
+      		%  \authortitulo\\  %Poner si es para un máster, tesis...
 	\end{center}
 	\vspace{.5cm}
 	\begin{center}
@@ -194,7 +194,7 @@
 	\elnombretrabajo:\hspace{.5cm}  \parbox[t]{10cm}{\eltitulo}
 	\vspace{0.5cm}
 	\begin{tabbing}
-		\hspace{.5cm} Autor: \hspace{0.8cm} \elautor\\
+		\hspace{.5cm} Author: \hspace{0.8cm} \elauthor\\
     		\hspace{.5cm} Tutor: \hspace{0.8cm}  \eldirector %\\ \hspace{5.18cm}  %\directorb \\
 	\end{tabbing}
 	\vspace{.5cm}
