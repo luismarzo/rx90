@@ -41,6 +41,8 @@
 #define DELTA_VH 25
 #define DELTA_DIAG (0.707 * DELTA_VH)
 #define END "\r\n"
+bool mandar_accion=true;
+int contador_contactos=0;
 
 using namespace LibSerial;
 
@@ -395,7 +397,7 @@ void Rx90::rviz()
 
     if (send_position == 'y')
     {
-      std::cout << "Vamos a leer las posiciones de las articulaciones " << std::endl;
+      std::cout << "Reading joints positions " << std::endl;
       moveit::core::RobotStatePtr current_state = move_group.getCurrentState();
       std::vector<double> joint_group_positions;
       current_state->copyJointGroupPositions(joint_model_group, joint_group_positions);
@@ -434,13 +436,26 @@ ROS_INFO_STREAM("[Checking collision]: Current state is "
 
 }
 //void cb(ConstWorldStatisticsPtr &_msg)
-void cb(ConstContactsPtr &_msg)
+void Rx90::callb(ConstContactsPtr &_msg)
 {
-  //std::cout<<"hola"<<std::endl;
-  //std::cout << _msg->DebugString();
-  //std::cout<<_msg->buffer<<std::endl;
-std::cout<<_msg->contact_size()<<std::endl;
+
+//std::cout<<_msg->contact_size()<<std::endl;
+//si hay contacto que no deje mandar acción a el robot real
+if(_msg->contact_size()!=0)
+{
+mandar_accion=false;
+contador_contactos=0;
 }
+else{
+  contador_contactos++;
+}
+//si ya no está tocando...
+if(contador_contactos==10){
+  mandar_accion=true;
+}
+
+}
+
 
 void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _j6, char send){
 
@@ -473,8 +488,9 @@ void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _
 
   gazebo::transport::NodePtr node(new gazebo::transport::Node());
   node->Init();
+  
   // Listen to Gazebo  topic (different from ros topics)
-  gazebo::transport::SubscriberPtr sub = node->Subscribe("~/physics/contacts", cb);
+  gazebo::transport::SubscriberPtr sub = node->Subscribe("~/physics/contacts", Rx90::callb);
   //gazebo::transport::SubscriberPtr sub = node->Subscribe("~/world_stats", cb);
 
 
@@ -489,7 +505,7 @@ float j1,j2,j3,j4,j5,j6;
   if(send=='n')  //Las posiciones de las joints no vienen de la función rviz
   {
       
-    printf("\nREADY! give methe joints in degrees (j1,j2,j3,j4,j5,j6)"); //Coordenadas del sistema de referencia del mando del Rx90
+    printf("\nREADY! give me the joints in degrees (j1,j2,j3,j4,j5,j6)"); //Coordenadas del sistema de referencia del mando del Rx90
 	  printf("\nj1:");
 	  std::cin>>j1;
 	  printf("\nj2:");
@@ -507,25 +523,33 @@ float j1,j2,j3,j4,j5,j6;
   
   else
   {
-     printf("\nGazebo function"); //Coordenadas del sistema de referencia del mando del Rx90
-	  // printf("\nj1:");
-	  // std::cin>>j1;
-	  // printf("\nj2:");
-	  // std::cin>>j2;
-	  // printf("\nj3:");
-	  // std::cin>>j3;
-	  // printf("\nj4:");
-	  // std::cin>>j4;
-	  // printf("\nj5:");
-	  // std::cin>>j5;
-	  // printf("\nj6:");
-	  // std::cin>>j6;
+     std::cout<<"Gazebo function"<<std::endl; //Coordenadas del sistema de referencia del mando del Rx90
+    printf("\nj1:");
+	  std::cin>>j1;
+	  printf("\nj2:");
+	  std::cin>>j2;
+	  printf("\nj3:");
+	  std::cin>>j3;
+	  printf("\nj4:");
+	  std::cin>>j4;
+	  printf("\nj5:");
+	  std::cin>>j5;
+	  printf("\nj6:");
+	  std::cin>>j6;
+    // j1=0;
+    // j2=0;
+    // j3=0;
+    // j4=0;
+    // j5=0;
+    // j6=0;
+
     j1=_j1;
     j2=_j2;
     j3=_j3;
     j4=_j4;
     j5=_j5;
     j6=_j6;
+std::cout<<j1<<std::endl;
   }
 
 int prohibited_joint=0;
@@ -596,21 +620,32 @@ int prohibited_joint=0;
 	 msg.data=j6;
 	 pub_flange_2.publish(msg);
 
+  std::cout<<"Waiting 10 seconds for checking collisions in gazebo..."<<std::endl;
 
 
+  sleep(10);
 
    ////////////////////////////////////////////Meter restricciones de los joints para dejar enviar o no
   
-  printf("\nSend position to real Rx90?:[y/n]");
-	std::cin>>send_position;
 
-	if(send_position=='y')
-	  {
-		//Se manda sin los cambios de coordenadas realizados a Gazebo
-		Joints=stg_j1+","+stg_j2+","+stg_j3+","+stg_j4+","+stg_j5+","+stg_j6;
-		std::cout<< "\n" <<  Joints <<std::endl;
-		move_position(Joints);  
-	  }
+  if(mandar_accion==true){
+    printf("\nSend position to real Rx90?:[y/n]");
+    std::cin>>send_position;
+
+    if(send_position=='y')
+      {
+      //Se manda sin los cambios de coordenadas realizados a Gazebo
+      Joints=stg_j1+","+stg_j2+","+stg_j3+","+stg_j4+","+stg_j5+","+stg_j6;
+      std::cout<< "\n" <<  Joints <<std::endl;
+      move_position(Joints);  
+      }
+  }
+  else{
+    printf("\nYou can't send real position due to collisions\n");
+    //reseteamos mandar cción para la proxima iteracción
+    mandar_accion=true;
+  }
+  contador_contactos=0;
 
   }
 }
