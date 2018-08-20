@@ -2,6 +2,8 @@
 
 In order to use it:
 
+First copy the "models" folder into your gazebo path models.
+
 Joint control:
 `roslaunch rx90_description double_rx90.launch`
 

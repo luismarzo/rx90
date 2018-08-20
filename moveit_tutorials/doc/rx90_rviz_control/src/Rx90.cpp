@@ -524,18 +524,19 @@ float j1,j2,j3,j4,j5,j6;
   else
   {
      std::cout<<"Gazebo function"<<std::endl; //Coordenadas del sistema de referencia del mando del Rx90
-    printf("\nj1:");
-	  std::cin>>j1;
-	  printf("\nj2:");
-	  std::cin>>j2;
-	  printf("\nj3:");
-	  std::cin>>j3;
-	  printf("\nj4:");
-	  std::cin>>j4;
-	  printf("\nj5:");
-	  std::cin>>j5;
-	  printf("\nj6:");
-	  std::cin>>j6;
+     sleep(2);
+    // printf("\nj1:");
+	  //  std::cin>>j1;
+	  // printf("\nj2:");
+	  // std::cin>>j2;
+	  // printf("\nj3:");
+	  // std::cin>>j3;
+	  // printf("\nj4:");
+	  // std::cin>>j4;
+	  // printf("\nj5:");
+	  // std::cin>>j5;
+	  // printf("\nj6:");
+	  // std::cin>>j6;
     // j1=0;
     // j2=0;
     // j3=0;
