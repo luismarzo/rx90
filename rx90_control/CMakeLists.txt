@@ -8,7 +8,13 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   genmsg
   gazebo_msgs
+  message_generation
+)
 
+add_service_files(
+  FILES
+  Set_activation.srv
+  Set_position.srv
 )
 
 generate_messages(DEPENDENCIES std_msgs gazebo_msgs)
@@ -53,6 +59,15 @@ add_dependencies(main_catch rx90_control_generate_messages_cpp)
 #add_executable(positioner_plugin src/positioner_plugin.cpp)
 add_library(gripper_plugin SHARED src/gripper_plugin.cpp)
 target_link_libraries(gripper_plugin ${GAZEBO_LIBRARIES})
+
+
+add_executable(Set_activation_client src/clients/Set_activation_client.cpp)
+target_link_libraries(Set_activation_client ${catkin_LIBRARIES})
+add_dependencies(Set_activation_client rx90_control_gencpp)
+
+add_executable(Set_position_client src/clients/Set_position_client.cpp)
+target_link_libraries(Set_position_client ${catkin_LIBRARIES})
+add_dependencies(Set_position_client rx90_control_gencpp)
 
 #add_executable(collision_plugin src/collision_plugin.cpp)
 add_library(contact_plugin SHARED src/contact_plugin.cpp)
