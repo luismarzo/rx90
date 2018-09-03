@@ -11,10 +11,10 @@
   <xacro:include filename="$(find rx90_description)/urdf/materials.xacro" />
   
     <!--NO SE USA EL PLUGIN DESDE QUE PODEMOS SUBSCRIBRNOS A LOS TOPICOS DE GAZEBO-->
-<!--gazebo>
-<plugin name="contact_plugin" filename="libcontact_plugin.so">
+<gazebo>
+<plugin name="gripper_plugin" filename="libgripper_plugin.so">
 </plugin>
-</gazebo-->
+</gazebo>
 
   <link name="world"/>
 <!--link name="base_link"/-->

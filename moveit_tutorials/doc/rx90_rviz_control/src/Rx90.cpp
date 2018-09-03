@@ -15,6 +15,7 @@
 #include "std_msgs/Float64.h"
 #include "gazebo_msgs/ApplyJointEffort.h"
 #include "ros/ros.h"
+#include <time.h>
 
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
@@ -31,6 +32,7 @@
 #include <gazebo/transport/transport.hh>
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/gazebo_client.hh>
+#include "sensor_msgs/JointState.h"
 
 
 
@@ -162,6 +164,12 @@ void Rx90::move(const Action& action)
     case CATCH:
       catchIt();
       break;
+    case OPEN:
+      openIt();
+      break;
+    case KNOW:
+      know_position();
+      break;
     case POSITION:
       std::cout<<" Do you want to introduce the position or the joints?[p/j]:"<<std::endl;
       std::cin>>pos;
@@ -214,7 +222,65 @@ Point = "100,-77,-43,55,45,-43";*/
 
 void Rx90::catchIt()
 {
+ros::NodeHandle n;
+ros::ServiceClient client = n.serviceClient<gazebo_msgs::ApplyJointEffort>("/gazebo/apply_joint_effort");
+gazebo_msgs::ApplyJointEffort lgripper_2,rgripper_2, mgripper_2;
+
+mgripper_2.request.joint_name = "rx90_2::RX90_MGRIPPER_JOINT";
+mgripper_2.request.effort = 99;
+mgripper_2.request.start_time = ros::Time(0);
+mgripper_2.request.duration = ros::Duration(-1);
+
+lgripper_2.request.joint_name = "rx90_2::RX90_LGRIPPER_JOINT";
+lgripper_2.request.effort = 99;
+lgripper_2.request.start_time = ros::Time(0);
+lgripper_2.request.duration = ros::Duration(-1);
+
+rgripper_2.request.joint_name = "rx90_2::RX90_RGRIPPER_JOINT";
+rgripper_2.request.effort = -99;
+rgripper_2.request.start_time = ros::Time(0);
+rgripper_2.request.duration = ros::Duration(-1);
+
+client.call(mgripper_2);
+client.call(lgripper_2);
+client.call(rgripper_2);
+sleep(5);
+mgripper_2.request.effort = -150;
+client.call(mgripper_2);
+
   sendCommand("DO CLOSEI");
+}
+
+
+void Rx90::openIt(){
+  sendCommand("DO OPENI");
+}
+
+void Callback(const sensor_msgs::JointState::ConstPtr& msg){
+
+  std::cout<<"\nj1:"<<msg->position[0]*360/(2*pi)
+  <<"\nj2:"<<msg->position[1]*360/(2*pi)+90
+  <<"\nj3:"<<msg->position[2]*360/(2*pi)-90   //esto esta aquí debido al cambio de coordenadas por el rx90 real
+  <<"\nj4:"<<msg->position[3]*360/(2*pi)
+  <<"\nj5:"<<msg->position[4]*360/(2*pi)
+  <<"\nj6:"<<msg->position[5]*360/(2*pi)
+  <<std::endl;
+  
+
+}
+
+void Rx90::know_position(){
+  
+  ros::NodeHandle n;
+  ros::Subscriber sub = n.subscribe("/rx90_2/joint_states", 10,Callback);
+  //sleep(0.5);
+
+  int milisec = 500; // length of time to sleep, in miliseconds
+struct timespec req = {0};
+req.tv_sec = 0;
+req.tv_nsec = milisec * 1000000L;
+nanosleep(&req, (struct timespec *)NULL);
+  //nanosleep(500);
 }
 
 void Rx90::printAction(const Action& action)
@@ -251,6 +317,9 @@ void Rx90::printAction(const Action& action)
       break;
     case CATCH:
       std::cout << "catch!";
+      break;
+    case OPEN:
+      std::cout << "open!";
       break;
     case POSITION:
       std::cout << "moving to a position!";
