@@ -35,7 +35,8 @@
 #include "sensor_msgs/JointState.h"
 
 
-
+#include "rx90_control/Set_activation.h"
+#include <cstdlib>
 #include <gazebo/common/Plugin.hh>
 #include "std_msgs/String.h"
 #define pi 3.14159265359
@@ -222,37 +223,92 @@ Point = "100,-77,-43,55,45,-43";*/
 
 void Rx90::catchIt()
 {
-ros::NodeHandle n;
-ros::ServiceClient client = n.serviceClient<gazebo_msgs::ApplyJointEffort>("/gazebo/apply_joint_effort");
-gazebo_msgs::ApplyJointEffort lgripper_2,rgripper_2, mgripper_2;
+//VISUALIZATION AND MOVING THE GRIPPER
+      ros::NodeHandle n;
+      ros::ServiceClient client = n.serviceClient<gazebo_msgs::ApplyJointEffort>("/gazebo/apply_joint_effort");
+      gazebo_msgs::ApplyJointEffort lgripper_2,rgripper_2, mgripper_2;
 
-mgripper_2.request.joint_name = "rx90_2::RX90_MGRIPPER_JOINT";
-mgripper_2.request.effort = 99;
-mgripper_2.request.start_time = ros::Time(0);
-mgripper_2.request.duration = ros::Duration(-1);
+      mgripper_2.request.joint_name = "rx90_2::RX90_MGRIPPER_JOINT";
+      //mgripper_2.request.effort = -99;
+      mgripper_2.request.effort = -20;
+      mgripper_2.request.start_time = ros::Time(0);
+      mgripper_2.request.duration = ros::Duration(-1);
+      
 
-lgripper_2.request.joint_name = "rx90_2::RX90_LGRIPPER_JOINT";
-lgripper_2.request.effort = 99;
-lgripper_2.request.start_time = ros::Time(0);
-lgripper_2.request.duration = ros::Duration(-1);
 
-rgripper_2.request.joint_name = "rx90_2::RX90_RGRIPPER_JOINT";
-rgripper_2.request.effort = -99;
-rgripper_2.request.start_time = ros::Time(0);
-rgripper_2.request.duration = ros::Duration(-1);
+      lgripper_2.request.joint_name = "rx90_2::RX90_LGRIPPER_JOINT";
+      //lgripper_2.request.effort = 99;
+      lgripper_2.request.effort = 20;
+      lgripper_2.request.start_time = ros::Time(0);
+      lgripper_2.request.duration = ros::Duration(-1);
 
-client.call(mgripper_2);
-client.call(lgripper_2);
-client.call(rgripper_2);
-sleep(5);
-mgripper_2.request.effort = -150;
-client.call(mgripper_2);
+      rgripper_2.request.joint_name = "rx90_2::RX90_RGRIPPER_JOINT";
+      rgripper_2.request.effort = -20;
+      rgripper_2.request.start_time = ros::Time(0);
+      rgripper_2.request.duration = ros::Duration(-1);
 
-  sendCommand("DO CLOSEI");
+      client.call(lgripper_2);
+      client.call(rgripper_2);
+      client.call(mgripper_2);
+
+      
+
+      //sleep(5);
+      //mgripper_2.request.effort = -150;
+      //client.call(mgripper_2);
+      
+//CLIENT FOR MOVING THE OBJECT
+  ros::ServiceClient service_client = n.serviceClient<rx90_control::Set_activation>("Set_activation");
+  rx90_control::Set_activation srv;
+  srv.request.activation = 1;
+  if (!service_client.call(srv))
+  {
+    ROS_ERROR("Failed to call service Set_activation_client");
+  }
+  
+
+
+sendCommand("DO CLOSEI");
 }
 
 
 void Rx90::openIt(){
+
+
+//Gazebo gripper visualization
+  ros::NodeHandle n;
+  ros::ServiceClient client = n.serviceClient<gazebo_msgs::ApplyJointEffort>("/gazebo/apply_joint_effort");
+      gazebo_msgs::ApplyJointEffort lgripper_2,rgripper_2, mgripper_2;
+
+      mgripper_2.request.joint_name = "rx90_2::RX90_MGRIPPER_JOINT";
+      //mgripper_2.request.effort = 99; //abrir
+      mgripper_2.request.effort = 20;
+      mgripper_2.request.start_time = ros::Time(0);
+      mgripper_2.request.duration = ros::Duration(-1);
+
+      lgripper_2.request.joint_name = "rx90_2::RX90_LGRIPPER_JOINT";
+      lgripper_2.request.effort = -20;
+      lgripper_2.request.start_time = ros::Time(0);
+      lgripper_2.request.duration = ros::Duration(-1);
+
+      rgripper_2.request.joint_name = "rx90_2::RX90_RGRIPPER_JOINT";
+      rgripper_2.request.effort = 20;
+      rgripper_2.request.start_time = ros::Time(0);
+      rgripper_2.request.duration = ros::Duration(-1);
+
+      client.call(mgripper_2);
+      client.call(lgripper_2);
+      client.call(rgripper_2);
+//OBJECT FALLING
+  ros::ServiceClient service_client = n.serviceClient<rx90_control::Set_activation>("Set_activation");
+  rx90_control::Set_activation srv;
+  srv.request.activation = 0;
+  if (!service_client.call(srv))
+  {
+    ROS_ERROR("Failed to call service Set_activation_client");
+  }
+ 
+
   sendCommand("DO OPENI");
 }
 

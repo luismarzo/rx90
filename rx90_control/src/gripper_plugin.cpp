@@ -33,7 +33,7 @@ class gripper_plugin : public ModelPlugin
 		this->model = _parent;
 		this->world = this->model->GetWorld();
 		//this->rx90 = this->world->GetModel("rx90_2");
-		this->object = this->world->GetModel("unit_box");
+		this->object = this->world->GetModel("box_mini");
 		this->rx90 = this->world->GetModel("rx90_2");
 		// this->number = this->world->GetModelCount();
 		this->nombres = this->world->GetModels();
@@ -73,15 +73,18 @@ class gripper_plugin : public ModelPlugin
 	{
 		if (set_activation == 1)
 		{	
-			//mover el robot entero
+			
 			gripper_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();			
+			//d_posx= gripper_position.pos.x-0.01;
+			//d_posy=gripper_position.pos.y;
+			//d_posz=gripper_position.pos.z+0.07+corrector;
+			corrector=corrector+0.00001;  //para corregir un fallo de gazebo donde se caen los objetos
 			d_posx= gripper_position.pos.x;
 			d_posy=gripper_position.pos.y;
 			d_posz=gripper_position.pos.z;
 			d_roll= gripper_position.rot.x;
 			d_pitch=gripper_position.rot.y;
 			d_yaw=gripper_position.rot.z;
-
 			math::Pose staticPose(d_posx,d_posy,d_posz,d_roll,d_pitch,d_yaw);
 			this->object->SetWorldPose(staticPose);
 			//Setlinkstatic
@@ -90,6 +93,7 @@ class gripper_plugin : public ModelPlugin
 		}
 		else{
 			static_position = object->GetLink("link")->GetWorldPose();
+			corrector=0.00001; //para corregir un fallo de gazebo donde se caen los objetos
 		}
 	}
 
@@ -103,12 +107,12 @@ class gripper_plugin : public ModelPlugin
 	 	pitch = res.resu5 = req.pitch;
 	 	yaw = res.resu6 = req.yaw;
 	
-	 	ROS_INFO("sending back response: [%ld,%ld,%ld,%ld,%ld,%ld]", (long int)res.resu1,
-	 			 (long int)res.resu2,
-	 			 (long int)res.resu3,
-	 			 (long int)res.resu4,
-	 			 (long int)res.resu5,
-	 			 (long int)res.resu6);
+	 	// ROS_INFO("sending back response: [%ld,%ld,%ld,%ld,%ld,%ld]", (long int)res.resu1,
+	 	// 		 (long int)res.resu2,
+	 	// 		 (long int)res.resu3,
+	 	// 		 (long int)res.resu4,
+	 	// 		 (long int)res.resu5,
+	 	// 		 (long int)res.resu6);
 
 	 	return true;
 	 }
@@ -118,8 +122,8 @@ class gripper_plugin : public ModelPlugin
 					rx90_control::Set_activation::Response &res)
 	{
 		set_activation = res.resu = req.activation;
-		ROS_INFO("request: activation=%ld, ", (long int)req.activation);
-		ROS_INFO("sending back response: [%ld]", (long int)res.resu);
+		// ROS_INFO("request: activation=%ld, ", (long int)req.activation);
+		// ROS_INFO("sending back response: [%ld]", (long int)res.resu);
 		return true;
 	}
 
@@ -145,7 +149,7 @@ class gripper_plugin : public ModelPlugin
 	long int set_activation = 0;
 	math::Pose static_position;
 	math::Pose gripper_position;
-	double d_posx = 0, d_posy = 0, d_posz = 0, d_roll = 0, d_pitch = 0, d_yaw = 0;
+	double d_posx = 0, d_posy = 0, d_posz = 0, d_roll = 0, d_pitch = 0, d_yaw = 0, corrector=0;
 };
 
 // Register this plugin with the simulator

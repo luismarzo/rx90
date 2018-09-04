@@ -24,6 +24,7 @@ find_package(catkin REQUIRED
     moveit_ros_planning_interface
     pluginlib
     geometric_shapes
+    rx90_control
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
