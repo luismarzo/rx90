@@ -253,7 +253,7 @@
     </inertial>
     </link>
     <joint name="RX90_LGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-0.01" upper="0.018" velocity="20"/>
+    <limit effort="100000.0" lower="-0.02" upper="0.0" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_LGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0.015" />
@@ -284,7 +284,7 @@
     </inertial>
     </link>
     <joint name="RX90_RGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-0.02" upper="0.01" velocity="20"/>
+    <limit effort="100000.0" lower="-0.01" upper="0.02" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_RGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0.015" />
@@ -316,7 +316,7 @@
     </inertial>
     </link>
     <joint name="RX90_MGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-0.03" upper="0.01" velocity="20"/>
+    <limit effort="100000.0" lower="-0.01" upper="0.02" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_MGRIPPER" />
        <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0 -0.035" />

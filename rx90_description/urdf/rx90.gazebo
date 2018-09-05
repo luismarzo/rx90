@@ -115,5 +115,15 @@
     <static>0</static>
   </gazebo>
 
+ <gazebo reference="RX90_END">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <dampingFactor>0.05</dampingFactor>
+    <material>Gazebo/White</material>
+    <selfCollide>0</selfCollide>
+    <static>0</static>
+  </gazebo>
+
+
   
 </robot>

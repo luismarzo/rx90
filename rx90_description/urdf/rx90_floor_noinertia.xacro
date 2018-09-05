@@ -253,7 +253,7 @@
     </inertial>
     </link>
     <joint name="RX90_LGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-0.01" upper="0.018" velocity="20"/>
+    <limit effort="100000.0" lower="-0.02" upper="0.0" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_LGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 0.03 0.015" />
@@ -284,7 +284,7 @@
     </inertial>
     </link>
     <joint name="RX90_RGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-0.02" upper="0.01" velocity="20"/>
+    <limit effort="100000.0" lower="-0.01" upper="0.02" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_RGRIPPER" />
        <origin rpy="0 0 ${-pi/2}" xyz="0.025 -0.03 0.015" />
@@ -316,13 +316,44 @@
     </inertial>
     </link>
     <joint name="RX90_MGRIPPER_JOINT" type="prismatic">
-    <limit effort="100000.0" lower="-0.03" upper="0.01" velocity="20"/>
+    <limit effort="100000.0" lower="-0.01" upper="0.02" velocity="20"/>
        <parent link="RX90_FLANGE" />
        <child link="RX90_MGRIPPER" />
        <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0 -0.035" />
     </joint>
  
+      <link name="RX90_END">
+       <visual>
+	<origin rpy="0 0 0" xyz="0 0 0" />
+          <geometry>
+            <box size="0.0005 0.0005 0.0005"/>
+          </geometry>
+       </visual>
+	<!--collision>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+            <geometry>
+              <box size="0.0000000000000000000000000000005 0.00000000000000000000005 0.0000000000000000000000000000005"/>
+            </geometry>
+       </collision>
+       <selfCollide>1</selfCollide-->
+	<inertial>
+       <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.1" />
+   
+          <inertia ixx="0.1"  ixy="0.1"  ixz="0.1"
+                   iyx="0.1"  iyy="0.1"  iyz="0.1"
+                   izx="0.1"  izy="0.1"  izz="0.1"/>
+    
+    </inertial>
+    </link>
+    <joint name="RX90_END_JOINT" type="prismatic">
+    <limit effort="100000.0" lower="-0.03" upper="0.01" velocity="20"/>
+       <parent link="RX90_FLANGE" />
+       <child link="RX90_END" />
+       <origin rpy="0 ${pi/2} ${-pi/2}" xyz="0.025 0.01 0.002" />
+    </joint>
 
+ 
 
 <!--BRAZOOOOOOOOOOOOOOOOOOOOooooooooooooooooooooooooooooooooooooooo-->
 
@@ -431,6 +462,15 @@
     </actuator>
   </transmission>
 
-
+      <transmission name="tran_RX90_END_JOINT">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="RX90_END_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_RX90_END_JOINT">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
 
 </robot>

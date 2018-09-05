@@ -16,7 +16,8 @@
             RX90_FLANGE_JOINT_position_controller
             RX90_LGRIPPER_JOINT_position_controller
             RX90_RGRIPPER_JOINT_position_controller
-            RX90_MGRIPPER_JOINT_position_controller"/>
+            RX90_MGRIPPER_JOINT_position_controller
+            RX90_END_JOINT_position_controller"/>
 
    <!-- <node name="controller_spawner_2" pkg="controller_manager" type="spawner" respawn="false"
 	output="screen" ns="/rx90_2" args="joint_state_controller

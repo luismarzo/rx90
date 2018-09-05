@@ -39,5 +39,9 @@
     type: effort_controllers/JointPositionController
     joint: RX90_MGRIPPER_JOINT
     pid: {p: 200.0, i: 0.01, d: 10.0}
+  RX90_END_JOINT_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: RX90_END_JOINT
+    pid: {p: 200.0, i: 0.01, d: 10.0}
 
 

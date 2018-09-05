@@ -41,7 +41,7 @@ class gripper_plugin : public ModelPlugin
 		//std::cout<<nombres[0]->GetName()<<std::endl;
 		//static_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();
 		static_position = object->GetLink("link")->GetWorldPose();
-		gripper_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();
+		gripper_position = rx90->GetLink("RX90_END")->GetWorldPose();
 		std::cout<<static_position<<" Y " << gripper_position<<std::endl;
 		this->link_nombres = this->object->GetLinks();
 		//this->link_gripper = this->rx90->GetLink("RX90_MGRIPPER");
@@ -74,14 +74,15 @@ class gripper_plugin : public ModelPlugin
 		if (set_activation == 1)
 		{	
 			
-			gripper_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();			
+			//gripper_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();
+			gripper_position = rx90->GetLink("RX90_END")->GetWorldPose();			
 			//d_posx= gripper_position.pos.x-0.01;
 			//d_posy=gripper_position.pos.y;
 			//d_posz=gripper_position.pos.z+0.07+corrector;
 			corrector=corrector+0.00001;  //para corregir un fallo de gazebo donde se caen los objetos
 			d_posx= gripper_position.pos.x;
 			d_posy=gripper_position.pos.y;
-			d_posz=gripper_position.pos.z;
+			d_posz=gripper_position.pos.z+corrector;
 			d_roll= gripper_position.rot.x;
 			d_pitch=gripper_position.rot.y;
 			d_yaw=gripper_position.rot.z;
