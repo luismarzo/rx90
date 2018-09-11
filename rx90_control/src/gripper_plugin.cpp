@@ -42,7 +42,8 @@ class gripper_plugin : public ModelPlugin
 		//static_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();
 		static_position = object->GetLink("link")->GetWorldPose();
 		gripper_position = rx90->GetLink("RX90_END")->GetWorldPose();
-		std::cout<<static_position<<" Y " << gripper_position<<std::endl;
+		object_position = object->GetLink("link")->GetWorldPose();
+		//std::cout << static_position << " Y " << gripper_position << std::endl;
 		this->link_nombres = this->object->GetLinks();
 		//this->link_gripper = this->rx90->GetLink("RX90_MGRIPPER");
 		this->link_gripper = this->object->GetLink("link");
@@ -57,12 +58,10 @@ class gripper_plugin : public ModelPlugin
 		// 		<< "\t" << this->link_nombres[1]->GetName()
 		// 		<< std::endl;
 
-
-
 		// // ROS_INFO("\n\nPluging activated!\n");
-		  ros::NodeHandle n;
-		 service = n.advertiseService("Set_position", &gripper_plugin::Model_pose, this);
-		  activationservice = n.advertiseService("Set_activation", &gripper_plugin::activation, this);
+		ros::NodeHandle n;
+		service = n.advertiseService("Set_position", &gripper_plugin::Model_pose, this);
+		activationservice = n.advertiseService("Set_activation", &gripper_plugin::activation, this);
 		// // ROS_INFO("Ready.");
 
 		this->updateConnection = event::Events::ConnectWorldUpdateBegin(boost::bind(&gripper_plugin::OnUpdate, this, _1));
@@ -72,52 +71,59 @@ class gripper_plugin : public ModelPlugin
 	void OnUpdate(const common::UpdateInfo &_info)
 	{
 		if (set_activation == 1)
-		{	
-			
+		{
+
 			//gripper_position = rx90->GetLink("RX90_MGRIPPER")->GetWorldPose();
-			gripper_position = rx90->GetLink("RX90_END")->GetWorldPose();			
-			//d_posx= gripper_position.pos.x-0.01;
-			//d_posy=gripper_position.pos.y;
-			//d_posz=gripper_position.pos.z+0.07+corrector;
-			corrector=corrector+0.00001;  //para corregir un fallo de gazebo donde se caen los objetos
-			d_posx= gripper_position.pos.x;
-			d_posy=gripper_position.pos.y;
-			d_posz=gripper_position.pos.z+corrector;
-			d_roll= gripper_position.rot.x;
-			d_pitch=gripper_position.rot.y;
-			d_yaw=gripper_position.rot.z;
-			math::Pose staticPose(d_posx,d_posy,d_posz,d_roll,d_pitch,d_yaw);
-			this->object->SetWorldPose(staticPose);
-			//Setlinkstatic
-			//math::Pose staticPose(static_position);
-			//this->link_gripper->SetWorldPose(staticPose);
+			gripper_position = rx90->GetLink("RX90_END")->GetWorldPose();
+			object_position = object->GetLink("link")->GetWorldPose();
+			if ((gripper_position.pos.x < object_position.pos.x + tol && gripper_position.pos.x > object_position.pos.x - tol) &&
+				(gripper_position.pos.y < object_position.pos.y + tol && gripper_position.pos.y > object_position.pos.y - tol) &&
+				(gripper_position.pos.z < object_position.pos.z + tol && gripper_position.pos.z > object_position.pos.z - tol))
+			{
+				//tol es la tolerancia para poder coger el objeto
+				//d_posx= gripper_position.pos.x-0.01;
+				//d_posy=gripper_position.pos.y;
+				//d_posz=gripper_position.pos.z+0.07+corrector;
+				corrector = corrector + 0.00001; //para corregir un fallo de gazebo donde se caen los objetos
+				d_posx = gripper_position.pos.x;
+				d_posy = gripper_position.pos.y;
+				d_posz = gripper_position.pos.z + corrector;
+				d_roll = gripper_position.rot.x;
+				d_pitch = gripper_position.rot.y;
+				d_yaw = gripper_position.rot.z;
+				math::Pose staticPose(d_posx, d_posy, d_posz, d_roll, d_pitch, d_yaw);
+				this->object->SetWorldPose(staticPose);
+				//Setlinkstatic
+				//math::Pose staticPose(static_position);
+				//this->link_gripper->SetWorldPose(staticPose);
+			}
 		}
-		else{
+		else
+		{
 			static_position = object->GetLink("link")->GetWorldPose();
-			corrector=0.00001; //para corregir un fallo de gazebo donde se caen los objetos
+			corrector = 0.00001; //para corregir un fallo de gazebo donde se caen los objetos
 		}
 	}
 
-	 bool Model_pose(rx90_control::Set_position::Request &req,
-	 				rx90_control::Set_position::Response &res)
-	 {
-	 	posx = res.resu1 = req.x;
-	 	posy = res.resu2 = req.y;
-	 	posz = res.resu3 = req.z;
+	bool Model_pose(rx90_control::Set_position::Request &req,
+					rx90_control::Set_position::Response &res)
+	{
+		posx = res.resu1 = req.x;
+		posy = res.resu2 = req.y;
+		posz = res.resu3 = req.z;
 		roll = res.resu4 = req.roll;
-	 	pitch = res.resu5 = req.pitch;
-	 	yaw = res.resu6 = req.yaw;
-	
-	 	// ROS_INFO("sending back response: [%ld,%ld,%ld,%ld,%ld,%ld]", (long int)res.resu1,
-	 	// 		 (long int)res.resu2,
-	 	// 		 (long int)res.resu3,
-	 	// 		 (long int)res.resu4,
-	 	// 		 (long int)res.resu5,
-	 	// 		 (long int)res.resu6);
+		pitch = res.resu5 = req.pitch;
+		yaw = res.resu6 = req.yaw;
 
-	 	return true;
-	 }
+		// ROS_INFO("sending back response: [%ld,%ld,%ld,%ld,%ld,%ld]", (long int)res.resu1,
+		// 		 (long int)res.resu2,
+		// 		 (long int)res.resu3,
+		// 		 (long int)res.resu4,
+		// 		 (long int)res.resu5,
+		// 		 (long int)res.resu6);
 
+		return true;
+	}
 
 	bool activation(rx90_control::Set_activation::Request &req,
 					rx90_control::Set_activation::Response &res)
@@ -149,8 +155,9 @@ class gripper_plugin : public ModelPlugin
 	std::string nombre_mundo;
 	long int set_activation = 0;
 	math::Pose static_position;
-	math::Pose gripper_position;
-	double d_posx = 0, d_posy = 0, d_posz = 0, d_roll = 0, d_pitch = 0, d_yaw = 0, corrector=0;
+	math::Pose gripper_position, object_position;
+	double d_posx = 0, d_posy = 0, d_posz = 0, d_roll = 0, d_pitch = 0, d_yaw = 0, corrector = 0;
+	float tol = 0.5; //tolerancia para coger el oobjeto
 };
 
 // Register this plugin with the simulator
