@@ -650,24 +650,7 @@ float j1,j2,j3,j4,j5,j6;
   {
      std::cout<<"Gazebo function"<<std::endl; //Coordenadas del sistema de referencia del mando del Rx90
      sleep(2);
-    // printf("\nj1:");
-	  //  std::cin>>j1;
-	  // printf("\nj2:");
-	  // std::cin>>j2;
-	  // printf("\nj3:");
-	  // std::cin>>j3;
-	  // printf("\nj4:");
-	  // std::cin>>j4;
-	  // printf("\nj5:");
-	  // std::cin>>j5;
-	  // printf("\nj6:");
-	  // std::cin>>j6;
-    // j1=0;
-    // j2=0;
-    // j3=0;
-    // j4=0;
-    // j5=0;
-    // j6=0;
+
 
     j1=_j1;
     j2=_j2;
@@ -680,32 +663,32 @@ std::cout<<j1<<std::endl;
 
 int prohibited_joint=0;
 
-  //  if(j1> 0 || j1< 0)
-  //   {
-  //     printf("\n[ERROR]: Joint 1 max and min limits are .Exiting...");
-  //     prohibited_joint=1;
-  //   }
-  //   else if(j2> 0 || j2< 0){
-  //     printf("\n[ERROR]: Joint 2 max and min limits are .Exiting...");
-  //     prohibited_joint=1;    
-  //   }
-  //   else if(j3> 0 || j3< 0){
-  //      printf("\n[ERROR]: Joint 3 max and min limits are .Exiting...");
-  //     prohibited_joint=1;
-  //   }
-  //   else if(j4> 0 || j4< 0){
-  //      printf("\n[ERROR]: Joint 4 max and min limits are .Exiting...");
-  //     prohibited_joint=1;
-  //   }
-  //   else if(j5> 0 || j5< 0){
-  //      printf("\n[ERROR]: Joint 5 max and min limits are .Exiting...");
-  //     prohibited_joint=1;
-  //   }
-  //   else if(j6> 0 || j6< 0){
-  //     printf("\n[ERROR]: Joint 6 max and min limits are . Exiting...");
-  //     prohibited_joint=1;
-  //   }
-  //physics::
+   if(j1>155 || j1< -155)
+    {
+      printf("\n[ERROR]: Joint 1 max limit is 155º and min limit is -155º .Exiting...");
+      prohibited_joint=1;
+    }
+    else if(j2> 18 || j2< -198){
+      printf("\n[ERROR]: Joint 2 max limit is 18º and min limit is -198º .Exiting...");
+      prohibited_joint=1;    
+    }
+    else if(j3> 231 || j3< -52){
+       printf("\n[ERROR]: Joint 3 max limit is 231º and min limit is -52º .Exiting...");
+      prohibited_joint=1;
+    }
+    else if(j4> 268 || j4< -268){
+       printf("\n[ERROR]: Joint 4 max limit is 268º and min limit is -268º .Exiting...");
+      prohibited_joint=1;
+    }
+    else if(j5> 118 || j5< -102){
+       printf("\n[ERROR]: Joint 5 max limit is 118º and min limit is -102º .Exiting...");
+      prohibited_joint=1;
+    }
+    else if(j6> 268 || j6< -268){
+      printf("\n[ERROR]: Joint 6 max limit is 268º and min limit is -268º. Exiting...");
+      prohibited_joint=1;
+    }
+
   
   if(prohibited_joint==0){
 		//Se hace antes para no pillar las transformaciones a Gazebo
