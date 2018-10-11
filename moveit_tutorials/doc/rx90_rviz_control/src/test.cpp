@@ -41,7 +41,9 @@ int main(int argc, char **argv)
     printf("                       GRVC                       \n");
     printf("//////////////////////////////////////////////////\n\n");
 
-
+ // calibrar el robot es en putty:
+  //.cal
+  //.do ready
 
 	// Rx90
 	Rx90 rx90("/dev/ttyUSB0", "122,-77,-19,55,45,-43"); //Posicion de joints en grados

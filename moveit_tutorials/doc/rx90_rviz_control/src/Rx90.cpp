@@ -22,6 +22,7 @@
 
 #include <moveit_msgs/DisplayRobotState.h>
 #include <moveit_msgs/DisplayTrajectory.h>
+#include <math.h>
 
 #include <moveit_msgs/AttachedCollisionObject.h>
 #include <moveit_msgs/CollisionObject.h>
@@ -39,6 +40,8 @@
 #include <cstdlib>
 #include <gazebo/common/Plugin.hh>
 #include "std_msgs/String.h"
+#include <iostream>
+#include <string>
 #define pi 3.14159265359
 
 #define DELTA_VH 25
@@ -48,6 +51,17 @@ bool mandar_accion=true;
 int contador_contactos=0;
 
 using namespace LibSerial;
+
+template<typename F>
+F truncate(const F& f,int decs)
+{
+    int i1 = floor(f);
+    F rmnd = f - i1;
+    int i2 = static_cast<int> (rmnd * pow(10, decs));
+    F f1 = i2 / pow(10, decs);
+
+    return i1 + f1;
+}
 
 Rx90::Rx90(const std::string& serialPort, const std::string& originPoint)
 {
@@ -213,6 +227,7 @@ void Rx90::move_position(const std::string& PPoint)
 {
   /*std::string Point;
 Point = "100,-77,-43,55,45,-43";*/
+  
   std::stringstream command_pose;
   command_pose << "DO SET #POSE=#PPOINT(" << PPoint.c_str() << ")";
   sendCommand(command_pose.str());
@@ -614,7 +629,7 @@ void Rx90::gazebo(float _j1, float _j2, float _j3, float _j4, float _j5, float _
   gazebo::transport::NodePtr node(new gazebo::transport::Node());
   node->Init();
   
-  // Listen to Gazebo  topic (different from ros topics)
+  // Listen to Gazebo  topic for cheking collisions(different from ros topics)
   gazebo::transport::SubscriberPtr sub = node->Subscribe("~/physics/contacts", Rx90::callb);
   //gazebo::transport::SubscriberPtr sub = node->Subscribe("~/world_stats", cb);
 
@@ -651,13 +666,15 @@ float j1,j2,j3,j4,j5,j6;
      std::cout<<"Gazebo function"<<std::endl; //Coordenadas del sistema de referencia del mando del Rx90
      sleep(2);
 
+   
+  
 
-    j1=_j1;
-    j2=_j2;
-    j3=_j3;
-    j4=_j4;
-    j5=_j5;
-    j6=_j6;
+    j1=truncate(_j1,1);
+    j2=truncate(_j2,1);
+    j3=truncate(_j3,1);
+    j4=truncate(_j4,1);
+    j5=truncate(_j5,1);
+    j6=truncate(_j6,1);
 std::cout<<j1<<std::endl;
   }
 
@@ -665,27 +682,27 @@ int prohibited_joint=0;
 
    if(j1>155 || j1< -155)
     {
-      printf("\n[ERROR]: Joint 1 max limit is 155º and min limit is -155º .Exiting...");
+      printf("\n[ERROR]: Joint 1 max limit is 155º and min limit is -155º .Exiting...\n");
       prohibited_joint=1;
     }
     else if(j2> 18 || j2< -198){
-      printf("\n[ERROR]: Joint 2 max limit is 18º and min limit is -198º .Exiting...");
+      printf("\n[ERROR]: Joint 2 max limit is 18º and min limit is -198º .Exiting...\n");
       prohibited_joint=1;    
     }
     else if(j3> 231 || j3< -52){
-       printf("\n[ERROR]: Joint 3 max limit is 231º and min limit is -52º .Exiting...");
+       printf("\n[ERROR]: Joint 3 max limit is 231º and min limit is -52º .Exiting...\n");
       prohibited_joint=1;
     }
     else if(j4> 268 || j4< -268){
-       printf("\n[ERROR]: Joint 4 max limit is 268º and min limit is -268º .Exiting...");
+       printf("\n[ERROR]: Joint 4 max limit is 268º and min limit is -268º .Exiting...\n");
       prohibited_joint=1;
     }
     else if(j5> 118 || j5< -102){
-       printf("\n[ERROR]: Joint 5 max limit is 118º and min limit is -102º .Exiting...");
+       printf("\n[ERROR]: Joint 5 max limit is 118º and min limit is -102º .Exiting...\n");
       prohibited_joint=1;
     }
     else if(j6> 268 || j6< -268){
-      printf("\n[ERROR]: Joint 6 max limit is 268º and min limit is -268º. Exiting...");
+      printf("\n[ERROR]: Joint 6 max limit is 268º and min limit is -268º. Exiting...\n");
       prohibited_joint=1;
     }
 
@@ -746,6 +763,8 @@ int prohibited_joint=0;
       //Se manda sin los cambios de coordenadas realizados a Gazebo
       Joints=stg_j1+","+stg_j2+","+stg_j3+","+stg_j4+","+stg_j5+","+stg_j6;
       std::cout<< "\n" <<  Joints <<std::endl;
+      std::cout<<"posiciones mandadas"<<std::endl;
+
       move_position(Joints);  
       }
   }
