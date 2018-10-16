@@ -658,6 +658,14 @@ float j1,j2,j3,j4,j5,j6;
 	  std::cin>>j5;
 	  printf("\nj6:");
 	  std::cin>>j6;
+    // truncamos para que podamos enviar las posiciones
+    j1=truncate(j1,0);
+    j2=truncate(j2,0);
+    j3=truncate(j3,0);
+    j4=truncate(j4,0);
+    j5=truncate(j5,0);
+    j6=truncate(j6,0);
+
     
   }
   
@@ -669,13 +677,13 @@ float j1,j2,j3,j4,j5,j6;
    
   
 
-    j1=truncate(_j1,1);
-    j2=truncate(_j2,1);
-    j3=truncate(_j3,1);
-    j4=truncate(_j4,1);
-    j5=truncate(_j5,1);
-    j6=truncate(_j6,1);
-std::cout<<j1<<std::endl;
+    j1=truncate(_j1,0);
+    j2=truncate(_j2,0);
+    j3=truncate(_j3,0);
+    j4=truncate(_j4,0);
+    j5=truncate(_j5,0);
+    j6=truncate(_j6,0);
+
   }
 
 int prohibited_joint=0;

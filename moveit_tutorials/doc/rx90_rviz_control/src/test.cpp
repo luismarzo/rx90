@@ -55,7 +55,7 @@ int main(int argc, char **argv)
 	{
 		
 		Rx90::Action action = Rx90::NONE;
-		std::cout << "Usage> w:up, s:down, a:left, d:right, e:catch, o:open, q:quit, p:position, k: knowing your position\n"
+		std::cout << "Usage> w:up, s:down, a:left, d:right, e:catch, o:open, q:quit, p:position:\n"
 			    << std::endl;
 		std::cin >> key;
 		switch (key)
@@ -87,12 +87,13 @@ int main(int argc, char **argv)
 		case 'n':
 			action = Rx90::NONE;
 			break;
-		case 'k':
-			action = Rx90::KNOW;
-			break;
+		// case 'k':
+		// 	action = Rx90::KNOW;
+		// 	break;
 		default:
 			std::cout << "Repeat key\n"
 				    << std::endl;
+			action = Rx90::NONE;
 		}
 
 		Rx90::printAction(action);
