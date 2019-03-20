@@ -20,6 +20,10 @@ add_service_files(
 generate_messages(DEPENDENCIES std_msgs gazebo_msgs)
 
 catkin_package(
+ CATKIN_DEPENDS
+    roscpp
+ 
+  INCLUDE_DIRS include 
 
 )
 
@@ -59,6 +63,7 @@ add_dependencies(main_catch rx90_control_generate_messages_cpp)
 #add_executable(positioner_plugin src/positioner_plugin.cpp)
 add_library(gripper_plugin SHARED src/gripper_plugin.cpp)
 target_link_libraries(gripper_plugin ${GAZEBO_LIBRARIES})
+add_dependencies(gripper_plugin ${catkin_EXPORTED_TARGETS})
 
 
 add_executable(Set_activation_client src/clients/Set_activation_client.cpp)
