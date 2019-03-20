@@ -25,6 +25,7 @@ find_package(catkin REQUIRED
     pluginlib
     geometric_shapes
     rx90_control
+    interactive_markers
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)
